@@ -1,4 +1,4 @@
-package com.chat.bposeats
+package com.chat.bposeats.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.chat.bposeats.BPChatApp
+import com.chat.bposeats.R
 import com.github.nkzawa.emitter.Emitter
 import com.github.nkzawa.socketio.client.Socket
-import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -31,7 +32,6 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.button_first).setOnClickListener {
-            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             val poisonObject = JSONObject()
             poisonObject.put("data", "message 1")
             mSocket.emit("my_event", poisonObject)
