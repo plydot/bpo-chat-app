@@ -1,4 +1,4 @@
-package com.chat.bposeats.view
+package com.chat.bposeats.main
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -12,4 +12,5 @@
     <string name="title_activity_conversation">BPO Connect</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_auth">AuthActivity</string>
 </resources>

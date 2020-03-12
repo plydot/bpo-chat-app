@@ -1,25 +1,27 @@
-package com.chat.bposeats.view
+package com.chat.bposeats.main
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.chat.bposeats.R
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+/**
+ * Displays the main screen
+ */
+class MainActivity : AppCompatActivity(), MainContract.MView {
+
+    private lateinit var mPresenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        mPresenter = MainPresenter(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -36,5 +38,13 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun showSignInView() {
+        Toast.makeText(this, "Sign in", Toast.LENGTH_LONG).show()
+    }
+
+    override fun showSignOutView() {
+        Toast.makeText(this, "Sign out", Toast.LENGTH_LONG).show()
     }
 }
