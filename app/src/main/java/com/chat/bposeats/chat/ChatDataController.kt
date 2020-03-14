@@ -8,10 +8,17 @@ import com.chat.bposeats.data.data.entity.User
 
 class ChatDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory = daoFactory), ChatContract.DataController {
 
-    override fun bindData(lifeCycleOwner: LifecycleOwner, newDataBlock: (List<User>?) -> Unit) {
+    override fun bindChatData(lifeCycleOwner: LifecycleOwner, newDataBlock: (List<User>?) -> Unit) {
         dao.userDao.getLiveData().observe(
             lifeCycleOwner,
             Observer<List<User>> { data -> newDataBlock.invoke(data.toMutableList()) }
+        )
+    }
+
+    override fun bindActiveUser(lifeCycleOwner: LifecycleOwner, userData: (List<User>?) -> Unit) {
+        dao.userDao.getCurrentUser(true).observe(
+            lifeCycleOwner,
+            Observer<List<User>> { o -> userData.invoke(o.toMutableList()) }
         )
     }
 }

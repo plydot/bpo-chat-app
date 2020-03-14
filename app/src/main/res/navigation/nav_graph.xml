@@ -11,6 +11,10 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_chat">
 
+        <action
+            android:id="@+id/action_ChatFragment_to_AuthFragment"
+            app:destination="@id/AuthFragment" />
+
     </fragment>
 
     <fragment

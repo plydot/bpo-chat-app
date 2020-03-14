@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.chat.bposeats.data.data.dao.UserDao
 import com.chat.bposeats.data.data.entity.User
-import com.plydot.sms.bulksms.datastore.dao.UserDao
 
-@Database(entities = [User::class], version = 2)
+@Database(entities = [User::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
