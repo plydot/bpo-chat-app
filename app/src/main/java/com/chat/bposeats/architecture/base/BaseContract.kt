@@ -1,6 +1,8 @@
 package com.chat.bposeats.architecture.base
 
+import android.app.Activity
 import android.app.Application
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import com.chat.bposeats.data.data.entity.User
 
@@ -11,6 +13,7 @@ public interface BaseContract {
     interface MView{
         fun getLifeCycleOwnerInstance(): LifecycleOwner
         fun application(): Application
+        fun getCurrentContext(): FragmentActivity
     }
 
     interface MPresenter{
