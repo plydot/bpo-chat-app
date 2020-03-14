@@ -1,4 +1,4 @@
-package com.plydot.sms.bulksms.datastore.dao
+package com.chat.bposeats.data.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -15,11 +15,17 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg user: User)
 
+    @Query("SELECT * FROM Users WHERE current = :current")
+    fun getCurrentUser(current: Boolean = true) : LiveData<List<User>>
+
     @Query("DELETE FROM Users WHERE id LIKE :string")
     fun deleteItem(string: String)
 
     @Delete
     fun delete(user: User)
+
+    @Query("DELETE FROM Users")
+    fun delete()
 
     @Update
     fun updateTodo(vararg user: User)

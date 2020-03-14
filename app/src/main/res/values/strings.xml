@@ -16,4 +16,19 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="create_account">Create Account</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="already_registered_login">Already registered? Login</string>
+    <string name="quota_expired">Your SMS quota has expired</string>
+    <string name="invalid_firebase_auth">Invalid Authentication</string>
+    <string name="verify_code">Verify Code</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="code_verification">Code Verification</string>
+    <string name="invalid_verification_code">Invalid verification code</string>
+    <string name="unknown_error">Unknown Error Occurred</string>
+    <string name="sigin_in">Sign In</string>
+    <string name="not_registered_signup">Not yet registered? Sign Up</string>
 </resources>

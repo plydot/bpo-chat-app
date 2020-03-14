@@ -22,8 +22,8 @@ class BPChatApp: MultiDexApplication() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(base)
-        mSocket = IO.socket("https://b3c62fa1.ngrok.io")
-        lSocket = IO.socket("https://b3c62fa1.ngrok.io")
+        mSocket = IO.socket("https://7c7731d7.ngrok.io")
+        lSocket = IO.socket("https://7c7731d7.ngrok.io")
     }
 
     companion object{

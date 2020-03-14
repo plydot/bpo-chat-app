@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "411651528505",
+    "firebase_url": "https://bposeats-538d1.firebaseio.com",
+    "project_id": "bposeats-538d1",
+    "storage_bucket": "bposeats-538d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411651528505:android:b387ebe2ab3d45fac93ae8",
+        "android_client_info": {
+          "package_name": "com.chat.bposeats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411651528505-tuuqies48402lqhsnbclhqjvd6ibvot7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chat.bposeats",
+            "certificate_hash": "9da41c84ca56df7d400e1fc42803538786eafeca"
+          }
+        },
+        {
+          "client_id": "411651528505-l7mrssqeam9iimi6gj4892gdca5im0mj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTZkuhfwF13lVAo4aUH2s7Y7JF6ZwLrLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411651528505-l7mrssqeam9iimi6gj4892gdca5im0mj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

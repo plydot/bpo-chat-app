@@ -11,6 +11,10 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_chat">
 
+        <action
+            android:id="@+id/action_ChatFragment_to_AuthFragment"
+            app:destination="@id/AuthFragment" />
+
     </fragment>
 
     <fragment
@@ -18,6 +22,10 @@
         android:name="com.chat.bposeats.auth.AuthFragment"
         android:label="Sign In"
         tools:layout="@layout/fragment_auth">
+
+        <action
+            android:id="@+id/action_AuthFragment_to_ChatFragment"
+            app:destination="@id/ChatFragment" />
 
     </fragment>
 </navigation>

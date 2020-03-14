@@ -9,7 +9,7 @@ open class BasePresenter : ViewModel(), BaseContract.MPresenter {
 
     lateinit var baseView: BaseContract.MView
     lateinit var daoFactory: DaoFactory
-    lateinit var mDataController: ChatDataController
+    lateinit var bDataController: BaseDataController
 
     override fun attachView(view: BaseContract.MView) {
         baseView = view
@@ -18,7 +18,7 @@ open class BasePresenter : ViewModel(), BaseContract.MPresenter {
 
     override fun attachDataController(view: BaseContract.MView) {
         daoFactory = BPChatApp.daoFactory(baseView.application() as BPChatApp)
-        mDataController = ChatDataController(daoFactory)
+        bDataController = BaseDataController(daoFactory)
     }
 
 }
