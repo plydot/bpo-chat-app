@@ -31,7 +31,7 @@
                 android:layout_marginBottom="24dp"
                 android:src="@mipmap/ic_launcher" />
 
-            <!-- Name Label -->
+            <!-- Verify Label -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,65 +39,25 @@
                 android:layout_marginBottom="8dp">
 
                 <EditText
-                    android:id="@+id/input_name"
+                    android:id="@+id/input_verify_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/first_name"
-                    android:inputType="textPersonName" />
+                    android:hint="@string/verification_code"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Address Label -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-
-                <EditText
-                    android:id="@+id/input_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/last_name"
-                    android:inputType="textPostalAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- mobile number -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-
-                <EditText
-                    android:id="@+id/input_mobile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/mobile_number"
-                    android:inputType="phone" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <!-- Signup Button -->
+            <!-- Verify Button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_signup"
+                android:id="@+id/btn_verify_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:onClick="@{() -> presenter.signUp()}"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 android:padding="15dp"
-                android:text="@string/create_account"
+                android:text="@string/verify_code"
                 android:textColor="@color/colorAccent" />
 
-            <TextView
-                android:id="@+id/link_login"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:gravity="center"
-                android:text="@string/already_registered_login"
-                android:textSize="16sp" />
 
         </LinearLayout>
 

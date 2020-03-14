@@ -80,4 +80,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-all:1.10.15'
 
     implementation 'com.google.firebase:firebase-auth:19.3.0'
+
+    kapt 'com.android.databinding:compiler:3.1.4'
 }

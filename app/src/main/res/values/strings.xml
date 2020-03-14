@@ -22,4 +22,11 @@
     <string name="last_name">Last Name</string>
     <string name="first_name">First Name</string>
     <string name="already_registered_login">Already registered? Login</string>
+    <string name="quota_expired">Your SMS quota has expired</string>
+    <string name="invalid_firebase_auth">Invalid Authentication</string>
+    <string name="verify_code">Verify Code</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="code_verification">Code Verification</string>
+    <string name="invalid_verification_code">Invalid verification code</string>
+    <string name="unknown_error">Unknown Error Occurred</string>
 </resources>
