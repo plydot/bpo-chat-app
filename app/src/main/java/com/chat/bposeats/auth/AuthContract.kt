@@ -1,8 +1,5 @@
 package com.chat.bposeats.auth
 
-import android.view.View
-import androidx.lifecycle.LifecycleOwner
-import com.chat.bposeats.data.data.entity.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -18,11 +15,14 @@ public interface AuthContract {
         fun showAuthError(error: String)
         fun showVerifyAuthCodeUI(verificationId: String)
         fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential)
+        fun getFirstName() : String
+        fun getLastName(): String
+        fun close()
     }
 
     interface MPresenter{
         fun signUp()
-        fun signIn(view: View)
+        fun signIn()
         fun processFirebasePhoneAuth()
         fun verifyAuthCode(code: String, verificationId: String?)
         fun isAuthCodeVerified(task: Task<AuthResult>) : Boolean?
@@ -30,6 +30,6 @@ public interface AuthContract {
     }
 
     interface DataController {
-        fun bindActiveUser(lifeCycleOwner: LifecycleOwner, userData: (List<User>?) -> (Unit))
+        fun addActiveUser(name: String, phone: String, reload: () -> (Unit))
     }
 }

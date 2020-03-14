@@ -23,5 +23,9 @@
         android:label="Sign In"
         tools:layout="@layout/fragment_auth">
 
+        <action
+            android:id="@+id/action_AuthFragment_to_ChatFragment"
+            app:destination="@id/ChatFragment" />
+
     </fragment>
 </navigation>

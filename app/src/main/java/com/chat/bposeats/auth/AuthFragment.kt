@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.chat.bposeats.R
 import com.chat.bposeats.architecture.base.BaseFragment
 import com.google.firebase.FirebaseException
@@ -45,19 +46,10 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
         auth = FirebaseAuth.getInstance()
     }
 
-    override fun getFirebaseAuth(): FirebaseAuth {
-        return auth
-    }
-
-    override fun getPhoneNumber() : String {
-        return input_mobile.text.toString()
-    }
-
     override fun getVerifyCallback(): PhoneAuthProvider.OnVerificationStateChangedCallbacks {
         val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-//                signInWithPhoneAuthCredential(credential)
-                Toast.makeText(activity!!, credential.toString(), Toast.LENGTH_LONG).show()
+                signInWithPhoneAuthCredential(credential)
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
@@ -77,7 +69,6 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
             override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
                 // Save verification ID and resending token so we can use them later
                 showVerifyAuthCodeUI(verificationId)
-                Toast.makeText(activity!!, "$verificationId : $token", Toast.LENGTH_LONG).show()
             }
         }
         return callbacks
@@ -89,14 +80,13 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
 
     override fun showVerifyAuthCodeUI(verificationId: String) {
         // custom dialog
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(activity!!, android.R.style.Theme_Material_NoActionBar_Fullscreen)
         dialog.setContentView(R.layout.verify_code)
         dialog.setTitle(getString(R.string.code_verification))
         val verifyTextView = dialog.findViewById<EditText>(R.id.input_verify_code)
         val verifyButton = dialog.findViewById<Button>(R.id.btn_verify_code)
         verifyButton.setOnClickListener {
-            Toast.makeText(activity!!, verifyTextView.text.toString(), Toast.LENGTH_LONG).show()
-            mPresenter.verifyAuthCode(verificationId, verifyTextView.text.toString())
+            mPresenter.verifyAuthCode(verifyTextView.text.toString(), verificationId)
         }
         dialog.show();
     }
@@ -104,12 +94,10 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
     override fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(activity!!) { task ->
-                Toast.makeText(activity!!, task.isSuccessful.toString(), Toast.LENGTH_LONG).show()
                 val success: Boolean? = mPresenter.isAuthCodeVerified(task)
                 if (success != null){
                     if (success){
-                        //TODO LOGIN
-                        Toast.makeText(activity!!, task.result!!.user!!.phoneNumber, Toast.LENGTH_LONG).show()
+                        mPresenter.signIn()
                     }else{
                         Toast.makeText(activity!!, getString(R.string.invalid_verification_code), Toast.LENGTH_LONG).show()
                     }
@@ -117,6 +105,19 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
                     Toast.makeText(activity!!, getString(R.string.unknown_error), Toast.LENGTH_LONG).show()
                 }
             }
+    }
+
+    override fun getFirstName() = first_name.text.toString()
+
+    override fun getLastName() = last_name.text.toString()
+
+    override fun getFirebaseAuth() = auth
+
+    override fun getPhoneNumber() = input_mobile.text.toString()
+
+    //closes auth ui and loads default chat ui
+    override fun close() {
+        findNavController().navigate(R.id.action_AuthFragment_to_ChatFragment)
     }
 
 }

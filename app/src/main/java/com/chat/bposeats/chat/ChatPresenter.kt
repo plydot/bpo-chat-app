@@ -7,9 +7,10 @@ import com.chat.bposeats.data.data.entity.User
 class ChatPresenter: BasePresenter(), ChatContract.MPresenter {
 
     private lateinit var mView: ChatContract.MView
+    private lateinit var dataController: ChatDataController
 
     override fun onViewInitialized() {
-        mDataController.bindActiveUser(
+        dataController.bindActiveUser(
             baseView.getLifeCycleOwnerInstance(),
             mView::getActiveUser
         )
@@ -30,5 +31,10 @@ class ChatPresenter: BasePresenter(), ChatContract.MPresenter {
     override fun attachView(view: BaseContract.MView) {
         super.attachView(view)
         mView = view as ChatContract.MView
+    }
+
+    override fun attachDataController(view: BaseContract.MView) {
+        super.attachDataController(view)
+        dataController = ChatDataController(bDataController.dao)
     }
 }

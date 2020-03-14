@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit
 
 class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
 
+    private lateinit var dataController: AuthDataController
     private lateinit var mView: AuthContract.MView
     override fun signUp() {
         mView.setFirebaseAuth()
@@ -21,8 +22,12 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
         }
     }
 
-    override fun signIn(view: View) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun signIn() {
+        dataController.addActiveUser(
+            "${mView.getFirstName()} ${mView.getLastName()}",
+            mView.getPhoneNumber(),
+            mView::close
+        )
     }
 
     override fun processFirebasePhoneAuth() {
@@ -57,5 +62,10 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
     override fun attachView(view: BaseContract.MView) {
         super.attachView(view)
         mView = view as AuthContract.MView
+    }
+
+    override fun attachDataController(view: BaseContract.MView) {
+        super.attachDataController(view)
+        dataController = AuthDataController(bDataController.dao)
     }
 }

@@ -8,5 +8,6 @@ data class User(
     @PrimaryKey var id: String,
     var username: String,
     var current: Boolean,
-    var phone: String
+    var phone: String,
+    var name: String
 )

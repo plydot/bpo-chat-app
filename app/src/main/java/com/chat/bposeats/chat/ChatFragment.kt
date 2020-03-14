@@ -60,6 +60,6 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
     }
 
     override fun displayChatUi() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(activity!!, "now chatting", Toast.LENGTH_LONG).show()
     }
 }
