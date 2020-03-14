@@ -29,4 +29,6 @@
     <string name="code_verification">Code Verification</string>
     <string name="invalid_verification_code">Invalid verification code</string>
     <string name="unknown_error">Unknown Error Occurred</string>
+    <string name="sigin_in">Sign In</string>
+    <string name="not_registered_signup">Not yet registered? Sign Up</string>
 </resources>

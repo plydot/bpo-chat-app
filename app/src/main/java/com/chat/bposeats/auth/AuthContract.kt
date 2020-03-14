@@ -18,6 +18,8 @@ public interface AuthContract {
         fun getFirstName() : String
         fun getLastName(): String
         fun close()
+        fun displaySignInUi()
+        fun isSignRequest(): Boolean
     }
 
     interface MPresenter{

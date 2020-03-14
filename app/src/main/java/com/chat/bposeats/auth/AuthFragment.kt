@@ -25,6 +25,7 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
 
     private lateinit var mPresenter: AuthPresenter
     private lateinit var auth: FirebaseAuth
+    private var mSignRequest: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -39,6 +40,10 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
         //handle on click for sign up
         btn_signup.setOnClickListener {
             mPresenter.signUp()
+        }
+
+        link_login.setOnClickListener{
+            displaySignInUi()
         }
     }
 
@@ -119,5 +124,30 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
     override fun close() {
         findNavController().navigate(R.id.action_AuthFragment_to_ChatFragment)
     }
+
+    override fun displaySignInUi() {
+
+        //set sign note to true
+        mSignRequest = true
+
+        first_name.visibility = View.GONE
+        last_name.visibility = View.GONE
+        btn_signup.text = getString(R.string.sigin_in)
+        link_login.text = getString(R.string.not_registered_signup)
+
+        link_login.setOnClickListener{
+            //set sign in not to false
+            mSignRequest = false
+            first_name.visibility = View.VISIBLE
+            last_name.visibility = View.VISIBLE
+            btn_signup.text = getString(R.string.create_account)
+            link_login.text = getString(R.string.already_registered_login)
+            link_login.setOnClickListener{
+                displaySignInUi()
+            }
+        }
+    }
+
+    override fun isSignRequest() = mSignRequest
 
 }

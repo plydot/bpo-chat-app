@@ -14,6 +14,9 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
     private lateinit var dataController: AuthDataController
     private lateinit var mView: AuthContract.MView
     override fun signUp() {
+        if (mView.isSignRequest()){
+
+        }
         mView.setFirebaseAuth()
         if (mView.getPhoneNumber().isEmpty()){
             mView.showAuthError("Phone number required")
