@@ -5,6 +5,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.chat.bposeats.data.data.dao.convert.IMessageConverter
+import com.chat.bposeats.data.data.dao.convert.IUserConverter
 import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.commons.models.IUser
@@ -15,7 +16,8 @@ public open class Dialog(
     var _dialogPhoto: String,
     var _unreadCount: Int,
     @TypeConverters(IMessageConverter::class) var _lastMessage: IMessage,
-    var _dialogName: String
+    var _dialogName: String,
+    @TypeConverters(IUserConverter::class) var _users: MutableList<IUser>
 ): IDialog<IMessage>{
     override fun getDialogPhoto(): String {
         return _dialogPhoto
@@ -34,7 +36,7 @@ public open class Dialog(
     }
 
     override fun getUsers(): MutableList<out IUser> {
-        TODO("Not yet implemented")
+        return _users
     }
 
     override fun getLastMessage(): IMessage {
