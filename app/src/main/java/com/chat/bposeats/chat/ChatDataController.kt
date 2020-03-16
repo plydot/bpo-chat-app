@@ -11,14 +11,14 @@ class ChatDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory
     override fun bindChatData(lifeCycleOwner: LifecycleOwner, newDataBlock: (List<User>?) -> Unit) {
         dao.userDao.getLiveData().observe(
             lifeCycleOwner,
-            Observer<List<User>> { data -> newDataBlock.invoke(data.toMutableList()) }
+            Observer { data -> newDataBlock.invoke(data.toMutableList()) }
         )
     }
 
     override fun bindActiveUser(lifeCycleOwner: LifecycleOwner, userData: (List<User>?) -> Unit) {
         dao.userDao.getCurrentUser(true).observe(
             lifeCycleOwner,
-            Observer<List<User>> { o -> userData.invoke(o.toMutableList()) }
+            Observer { o -> userData.invoke(o.toMutableList()) }
         )
     }
 }
