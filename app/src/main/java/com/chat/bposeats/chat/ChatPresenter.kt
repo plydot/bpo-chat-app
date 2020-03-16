@@ -24,10 +24,6 @@ class ChatPresenter: BasePresenter(), ChatContract.MPresenter {
         }
     }
 
-    override fun runChat() {
-
-    }
-
     override fun getDialogs() {
         dataController.bindChatDialogs(
             baseView.getLifeCycleOwnerInstance(),

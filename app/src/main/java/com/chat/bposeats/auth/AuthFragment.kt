@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.fragment_auth.*
 class AuthFragment : BaseFragment(), AuthContract.MView {
 
     private lateinit var mPresenter: AuthPresenter
-    private lateinit var auth: FirebaseAuth
     private var mSignRequest: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,10 +44,6 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
         link_login.setOnClickListener{
             displaySignInUi()
         }
-    }
-
-    override fun setFirebaseAuth() {
-        auth = FirebaseAuth.getInstance()
     }
 
     override fun getVerifyCallback(): PhoneAuthProvider.OnVerificationStateChangedCallbacks {
@@ -96,7 +91,7 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
     }
 
     override fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        auth.signInWithCredential(credential)
+        FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(activity!!) { task ->
                 val success: Boolean? = mPresenter.isAuthCodeVerified(task)
                 if (success != null){
@@ -114,8 +109,6 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
     override fun getFirstName() = first_name.text.toString()
 
     override fun getLastName() = last_name.text.toString()
-
-    override fun getFirebaseAuth() = auth
 
     override fun getPhoneNumber() = input_mobile.text.toString()
 

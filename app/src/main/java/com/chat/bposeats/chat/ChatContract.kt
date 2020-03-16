@@ -12,23 +12,31 @@ import com.stfalcon.chatkit.dialogs.DialogsListAdapter
 public interface ChatContract {
     interface MView{
         fun loadUsers(data: List<User>?)
+        // loads the currently logged in user to the UI
         fun getActiveUser(user: List<User>?)
+        //display login fields to allowed logged out user to check n
         fun displayLoginUi()
+        // initializes the chat dialog adapter
         fun displayChatUi()
+        // adds dialogs to the chat adapter
         fun updateDialog(dialogs: List<IDialog<IMessage>>)
+        // getter for the chat dialog adapter
         fun getDialogAdapter() : DialogsListAdapter<IDialog<IMessage>>
     }
 
     interface MPresenter{
+        // initializes view references to the actively logged user if any
         fun onViewInitialized()
+        // logs in authorized user
         fun logInUser(user: List<User>?)
-        fun runChat()
+        // populates dialog adapter with new chat dialogs
         fun getDialogs()
     }
 
     interface DataController {
-        fun bindChatData(lifeCycleOwner: LifecycleOwner, newDataBlock: (List<User>?) -> (Unit))
+        // gets active user from db and trigger ui updates
         fun bindActiveUser(lifeCycleOwner: LifecycleOwner, userData: (List<User>?) -> (Unit))
+        // gets new dialogs from the db and triggers ui updates
         fun bindChatDialogs(lifeCycleOwner: LifecycleOwner, dialogData: (List<IDialog<IMessage>>) -> (Unit))
     }
 }

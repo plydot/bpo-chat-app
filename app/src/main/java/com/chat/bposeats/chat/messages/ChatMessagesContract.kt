@@ -11,7 +11,7 @@ import com.stfalcon.chatkit.dialogs.DialogsListAdapter
  */
 public interface ChatMessagesContract {
     interface MView{
-
+        fun initializeAdapter()
     }
 
     interface MPresenter{
