@@ -1,22 +1,31 @@
 package com.chat.bposeats.data.data.entity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.chat.bposeats.data.data.dao.convert.IUserConverter
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.commons.models.IUser
 import java.util.*
 
-class ChatMessage(var userId : String, var name: String, var phone: String, var message: String) : IMessage {
+@Entity(tableName = "ChatMessages")
+class ChatMessage(
+    @PrimaryKey var dbId : String,
+    var name: String,
+    var message: String,
+    var dateCreated: Date,
+    @TypeConverters(IUserConverter::class) var dbUser: IUser
+) : IMessage {
     override fun getId(): String {
-        return UUID.randomUUID().toString()
+        return dbId
     }
 
     override fun getCreatedAt(): Date {
-        return Date()
+        return dateCreated
     }
 
     override fun getUser(): IUser {
-        return User(userId,
-            name, true,
-            phone, name, "")
+        return dbUser
     }
 
     override fun getText(): String {

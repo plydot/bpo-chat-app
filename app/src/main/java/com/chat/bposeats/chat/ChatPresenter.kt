@@ -28,6 +28,13 @@ class ChatPresenter: BasePresenter(), ChatContract.MPresenter {
 
     }
 
+    override fun getDialogs() {
+        dataController.bindChatDialogs(
+            baseView.getLifeCycleOwnerInstance(),
+            mView::updateDialog
+        )
+    }
+
     override fun attachView(view: BaseContract.MView) {
         super.attachView(view)
         mView = view as ChatContract.MView

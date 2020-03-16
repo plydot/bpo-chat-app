@@ -5,6 +5,8 @@ import androidx.lifecycle.Observer
 import com.chat.bposeats.architecture.base.BaseDataController
 import com.chat.bposeats.data.data.dao.DaoFactory
 import com.chat.bposeats.data.data.entity.User
+import com.stfalcon.chatkit.commons.models.IDialog
+import com.stfalcon.chatkit.commons.models.IMessage
 
 class ChatDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory = daoFactory), ChatContract.DataController {
 
@@ -21,4 +23,16 @@ class ChatDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory
             Observer { o -> userData.invoke(o.toMutableList()) }
         )
     }
+
+    override fun bindChatDialogs(
+        lifeCycleOwner: LifecycleOwner,
+        dialogData: (List<IDialog<IMessage>>) -> Unit
+    ) {
+        dao.chatDialogDao.getLiveData().observe(
+            lifeCycleOwner,
+            Observer { o -> dialogData.invoke(o.toMutableList()) }
+        )
+    }
+
+
 }

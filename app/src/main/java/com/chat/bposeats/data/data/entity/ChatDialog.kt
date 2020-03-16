@@ -10,7 +10,7 @@ import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.commons.models.IUser
 
-@Entity(tableName = "Dialogs")
+@Entity(tableName = "ChatDialogs")
 public open class ChatDialog(
     @PrimaryKey var dbId : String,
     var dbDialogPhoto: String?,
@@ -53,7 +53,6 @@ public open class ChatDialog(
         }else{
             dbDialogName
         }
-
     }
 
 }

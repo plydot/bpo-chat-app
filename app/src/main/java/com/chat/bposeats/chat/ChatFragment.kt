@@ -72,8 +72,17 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
             DialogsListAdapter<IDialog<IMessage>>(ImageLoader { imageView, url, payload ->
                 Picasso.get().load(url).into(imageView)
             })
-
         dialogsListAdapter.addItems(emptyDialog)
         dialogsList.setAdapter(dialogsListAdapter)
+        //update dialog lists
+        mPresenter.getDialogs()
     }
+
+    override fun updateDialog(dialogs: List<IDialog<IMessage>>) {
+        for (dialog in dialogs) {
+            dialogsListAdapter.updateItemById(dialog)
+        }
+    }
+
+    override fun getDialogAdapter() : DialogsListAdapter<IDialog<IMessage>> = dialogsListAdapter
 }
