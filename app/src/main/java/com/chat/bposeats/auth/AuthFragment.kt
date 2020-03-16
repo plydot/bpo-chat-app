@@ -52,7 +52,7 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
     }
 
     override fun getVerifyCallback(): PhoneAuthProvider.OnVerificationStateChangedCallbacks {
-        val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        return object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                 signInWithPhoneAuthCredential(credential)
             }
@@ -76,7 +76,6 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
                 showVerifyAuthCodeUI(verificationId)
             }
         }
-        return callbacks
     }
 
     override fun showAuthError(error: String) {

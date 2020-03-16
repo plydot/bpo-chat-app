@@ -7,22 +7,22 @@ import com.stfalcon.chatkit.commons.models.IUser
 
 @Entity(tableName = "Users", indices = [Index(value = ["phone"], unique = true)])
 data class User(
-    @PrimaryKey var _id: String,
+    @PrimaryKey var dbId: String,
     var username: String,
     var current: Boolean,
     var phone: String,
-    var _name: String,
-    var _avatar: String
+    var dbName: String,
+    var dbAvatar: String
 ) : IUser {
     override fun getAvatar(): String {
-        return _avatar
+        return dbAvatar
     }
 
     override fun getName(): String {
-        return _name
+        return dbName
     }
 
     override fun getId(): String {
-        return _id
+        return dbId
     }
 }

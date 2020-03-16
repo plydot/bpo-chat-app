@@ -11,11 +11,18 @@ import com.chat.bposeats.R
 import com.chat.bposeats.architecture.base.BaseFragment
 import com.chat.bposeats.data.data.entity.User
 import com.github.nkzawa.emitter.Emitter
+import com.squareup.picasso.Picasso
+import com.stfalcon.chatkit.commons.ImageLoader
+import com.stfalcon.chatkit.commons.models.IDialog
+import com.stfalcon.chatkit.commons.models.IMessage
+import com.stfalcon.chatkit.dialogs.DialogsListAdapter
+import kotlinx.android.synthetic.main.fragment_chat.*
 
 
 class ChatFragment : BaseFragment(), ChatContract.MView {
 
     private lateinit var mPresenter: ChatPresenter
+    private lateinit var dialogsListAdapter: DialogsListAdapter<IDialog<IMessage>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +67,13 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
     }
 
     override fun displayChatUi() {
-        Toast.makeText(activity!!, "now chatting", Toast.LENGTH_LONG).show()
+        val emptyDialog = mutableListOf<IDialog<IMessage>>()
+        dialogsListAdapter =
+            DialogsListAdapter<IDialog<IMessage>>(ImageLoader { imageView, url, payload ->
+                Picasso.get().load(url).into(imageView)
+            })
+
+        dialogsListAdapter.addItems(emptyDialog)
+        dialogsList.setAdapter(dialogsListAdapter)
     }
 }

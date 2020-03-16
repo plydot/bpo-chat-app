@@ -11,40 +11,49 @@ import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.commons.models.IUser
 
 @Entity(tableName = "Dialogs")
-public open class Dialog(
-    @PrimaryKey var _id : String,
-    var _dialogPhoto: String,
-    var _unreadCount: Int,
-    @TypeConverters(IMessageConverter::class) var _lastMessage: IMessage,
-    var _dialogName: String,
-    @TypeConverters(IUserConverter::class) var _users: MutableList<IUser>
+public open class ChatDialog(
+    @PrimaryKey var dbId : String,
+    var dbDialogPhoto: String?,
+    var dbUnreadCount: Int,
+    @TypeConverters(IMessageConverter::class) var dbLastMessage: IMessage,
+    var dbDialogName: String,
+    @TypeConverters(IUserConverter::class) var dbUsers: MutableList<IUser>
 ): IDialog<IMessage>{
     override fun getDialogPhoto(): String {
-        return _dialogPhoto
+        return dbDialogPhoto!!
     }
 
     override fun getUnreadCount(): Int {
-        return _unreadCount
+        return dbUnreadCount
     }
 
-    override fun setLastMessage(message: IMessage?) {
-        _lastMessage = message!!
+    override fun setLastMessage(lastMessage: IMessage?) {
+        dbLastMessage = lastMessage!!
     }
 
     override fun getId(): String {
-        return _id
+        return dbId
     }
 
     override fun getUsers(): MutableList<out IUser> {
-        return _users
+        return dbUsers
     }
 
     override fun getLastMessage(): IMessage {
-        return _lastMessage
+        return dbLastMessage
     }
 
     override fun getDialogName(): String {
-        return _dialogName
+        return if (dbDialogName.isEmpty()){
+            var name = ""
+            for (user: IUser in dbUsers){
+                name += "${user.name} "
+            }
+            name
+        }else{
+            dbDialogName
+        }
+
     }
 
 }
