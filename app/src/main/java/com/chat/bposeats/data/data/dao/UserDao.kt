@@ -18,6 +18,9 @@ interface UserDao {
     @Query("SELECT * FROM Users WHERE current = :current")
     fun getCurrentUser(current: Boolean = true) : LiveData<List<User>>
 
+    @Query("SELECT * FROM Users WHERE current = :current")
+    fun getRawCurrentUser(current: Boolean = true) : List<User>
+
     @Query("DELETE FROM Users WHERE dbId LIKE :string")
     fun deleteItem(string: String)
 

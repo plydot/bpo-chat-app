@@ -1,8 +1,10 @@
 package com.chat.bposeats.chat
 
+import android.widget.Toast
 import com.chat.bposeats.architecture.base.BaseContract
 import com.chat.bposeats.architecture.base.BasePresenter
 import com.chat.bposeats.data.data.entity.User
+import com.chat.bposeats.utils.Constants
 import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
 

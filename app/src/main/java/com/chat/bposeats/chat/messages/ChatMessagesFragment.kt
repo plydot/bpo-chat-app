@@ -40,6 +40,8 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
         mPresenter.attachView(this)
         //initialize chat ui
         mPresenter.onViewInitialized()
+        //initialize messages adapter
+        initializeAdapter()
     }
 
     override fun initializeAdapter() {

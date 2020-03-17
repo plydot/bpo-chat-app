@@ -29,7 +29,7 @@ class ChatDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory
     }
 
     override fun getDialogMessages(userIds: List<String>, out: (MutableList<ChatMessage>) -> Unit) {
-        out.invoke(dao.chatMessageDao.dialogMessages(userIds).value!!.toMutableList())
+        out.invoke(dao.chatMessageDao.dialogMessages(userIds).toMutableList())
     }
 
 }

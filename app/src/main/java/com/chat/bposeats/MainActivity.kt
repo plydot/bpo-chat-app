@@ -3,8 +3,14 @@ package com.chat.bposeats
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.chat.bposeats.data.data.entity.ChatDialog
+import com.chat.bposeats.data.data.entity.ChatMessage
+import com.chat.bposeats.data.data.entity.User
+import com.chat.bposeats.utils.Constants
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 /**
  * Displays the main screen
@@ -25,7 +31,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                val dao = BPChatApp.daoFactory(application as BPChatApp)
+//                val dbUser = User(UUID.randomUUID().toString(), "milton", false, "+256754640689", "milton", "" )
+//                dao.userDao.insert(dbUser)
+//                val lastMessage = ChatMessage(UUID.randomUUID().toString(), "", "Hi", Date(), dbUser, dbUser.dbId)
+//                dao.chatDialogDao.insert(
+//                    ChatDialog(
+//                        UUID.randomUUID().toString(),
+//                        "",
+//                        1,
+//                        lastMessage,
+//                        "",
+//                        mutableListOf(dbUser)
+//                    )
+//                )
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

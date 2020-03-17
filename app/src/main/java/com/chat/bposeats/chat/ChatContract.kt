@@ -24,7 +24,7 @@ public interface ChatContract {
         // getter for the chat dialog adapter
         fun getDialogAdapter() : DialogsListAdapter<IDialog<IMessage>>
         // attaches click listeners to dialog adapter
-        fun attachedDialogListeners()
+        fun attachedDialogListeners(dialogsListAdapter: DialogsListAdapter<IDialog<IMessage>>)
 
         fun loadDialogMessages(messages: MutableList<ChatMessage>)
     }

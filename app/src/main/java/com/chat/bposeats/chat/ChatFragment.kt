@@ -15,6 +15,7 @@ import com.chat.bposeats.architecture.base.BaseFragment
 import com.chat.bposeats.chat.messages.ChatMessagesFragment
 import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
+import com.chat.bposeats.utils.Constants
 import com.github.nkzawa.emitter.Emitter
 import com.squareup.picasso.Picasso
 import com.stfalcon.chatkit.commons.ImageLoader
@@ -24,6 +25,7 @@ import com.stfalcon.chatkit.dialogs.DialogsListAdapter
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter.OnDialogLongClickListener
 import kotlinx.android.synthetic.main.fragment_chat.*
 import java.io.Serializable
+import java.lang.IllegalArgumentException
 
 
 class ChatFragment : BaseFragment(), ChatContract.MView {
@@ -77,23 +79,26 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
         val emptyDialog = mutableListOf<IDialog<IMessage>>()
         dialogsListAdapter =
             DialogsListAdapter<IDialog<IMessage>>(ImageLoader { imageView, url, payload ->
-                Picasso.get().load(url).into(imageView)
+                try {
+                    Picasso.get().load(url).into(imageView)
+                }catch (e: IllegalArgumentException){}
             })
         dialogsListAdapter.addItems(emptyDialog)
+        //attach click listeners
+        attachedDialogListeners(dialogsListAdapter)
         dialogsList.setAdapter(dialogsListAdapter)
         //update dialog lists
         mPresenter.getDialogs()
     }
 
     override fun updateDialog(dialogs: List<IDialog<IMessage>>) {
-        for (dialog in dialogs) {
-            dialogsListAdapter.updateItemById(dialog)
-        }
+        dialogsListAdapter.clear()
+        dialogsListAdapter.addItems(dialogs)
     }
 
     override fun getDialogAdapter(): DialogsListAdapter<IDialog<IMessage>> = dialogsListAdapter
 
-    override fun attachedDialogListeners() {
+    override fun attachedDialogListeners(dialogsListAdapter: DialogsListAdapter<IDialog<IMessage>>) {
         dialogsListAdapter.setOnDialogClickListener { dialog ->
             run {
                 mPresenter.loadDialogMessages(dialog)
