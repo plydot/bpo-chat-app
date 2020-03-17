@@ -1,18 +1,13 @@
 package com.chat.bposeats.chat.messages
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
-
 import com.chat.bposeats.R
 import com.chat.bposeats.architecture.base.BaseFragment
-import com.chat.bposeats.utils.Constants
 import com.stfalcon.chatkit.commons.models.IMessage
-import com.stfalcon.chatkit.dialogs.DialogsListAdapter
 import com.stfalcon.chatkit.messages.MessagesListAdapter
 import kotlinx.android.synthetic.main.fragment_chat_messages.*
 
@@ -28,9 +23,6 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chat_messages, container, false)
     }
-
-
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -49,13 +41,27 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
         messageListAdapter = MessagesListAdapter(mPresenter.getActiveUser()!!.id, null)
         messageListAdapter.addToEnd(emptyList(), false)
         messagesList.setAdapter(messageListAdapter)
+        attachInputListener(messageListAdapter)
     }
 
     override fun updateMessageList(messages: MutableList<IMessage>) {
-
-        messageListAdapter.addToEnd(messages, false)
+        messageListAdapter.clear()
+        messageListAdapter.addToEnd(messages, true)
     }
 
     override fun getViewArguments() = arguments
+
+    override fun attachInputListener(adapter: MessagesListAdapter<IMessage>) {
+        message_input.setInputListener { input: CharSequence? ->
+            kotlin.run {
+                mPresenter.addNewMessage(input.toString(), mPresenter.getActiveUser()!!)
+                true
+            }
+        }
+    }
+
+    override fun updateWithNewMessage(message: IMessage) {
+        messageListAdapter.addToStart(message, true)
+    }
 
 }

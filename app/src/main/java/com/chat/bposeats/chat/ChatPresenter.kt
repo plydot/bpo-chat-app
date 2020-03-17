@@ -40,6 +40,7 @@ class ChatPresenter: BasePresenter(), ChatContract.MPresenter {
         for (user in dialog.users){
             userIds.add(user.id)
         }
+        userIds.add(getActiveUser()!!.dbId)
         out.invoke(userIds)
     }
 
