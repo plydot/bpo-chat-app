@@ -26,7 +26,7 @@ public interface ChatContract {
         // attaches click listeners to dialog adapter
         fun attachedDialogListeners(dialogsListAdapter: DialogsListAdapter<IDialog<IMessage>>)
 
-        fun loadDialogMessages(messages: MutableList<ChatMessage>)
+        fun loadDialogUsers(users: List<String>)
     }
 
     interface MPresenter{
@@ -37,7 +37,7 @@ public interface ChatContract {
         // populates dialog adapter with new chat dialogs
         fun getDialogs()
         //load dialog messages
-        fun loadDialogMessages(dialog: IDialog<IMessage>)
+        fun loadDialogUsers(dialog: IDialog<IMessage>, out: (List<String>) -> (Unit))
     }
 
     interface DataController {
@@ -46,7 +46,7 @@ public interface ChatContract {
         // gets new dialogs from the db and triggers ui updates
         fun bindChatDialogs(lifeCycleOwner: LifecycleOwner, dialogData: (List<IDialog<IMessage>>) -> (Unit))
 
-        fun getDialogMessages(userIds : List<String>, out: (MutableList<ChatMessage>) -> (Unit))
+//        fun getDialogMessages(userIds : List<String>, out: (MutableList<ChatMessage>) -> (Unit))
 
     }
 }

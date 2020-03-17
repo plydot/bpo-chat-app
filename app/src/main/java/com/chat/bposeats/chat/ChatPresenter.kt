@@ -35,15 +35,12 @@ class ChatPresenter: BasePresenter(), ChatContract.MPresenter {
         )
     }
 
-    override fun loadDialogMessages(dialog: IDialog<IMessage>) {
+    override fun loadDialogUsers(dialog: IDialog<IMessage>, out: (List<String>) -> (Unit)) {
         val userIds = mutableListOf<String>()
         for (user in dialog.users){
             userIds.add(user.id)
         }
-        dataController.getDialogMessages(
-            userIds,
-            mView::loadDialogMessages
-        )
+        out.invoke(userIds)
     }
 
     override fun attachView(view: BaseContract.MView) {

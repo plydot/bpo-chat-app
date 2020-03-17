@@ -40,8 +40,8 @@
         tools:layout="@layout/fragment_chat_messages">
 
         <argument
-            android:name="messages"
-            app:argType="com.chat.bposeats.data.data.entity.ChatMessage[]"
+            android:name="userIds"
+            app:argType="string[]"
             app:nullable="true"
             android:defaultValue="@null" />
 

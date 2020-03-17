@@ -101,14 +101,14 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
     override fun attachedDialogListeners(dialogsListAdapter: DialogsListAdapter<IDialog<IMessage>>) {
         dialogsListAdapter.setOnDialogClickListener { dialog ->
             run {
-                mPresenter.loadDialogMessages(dialog)
+                mPresenter.loadDialogUsers(dialog, this::loadDialogUsers)
             }
         }
     }
 
-    override fun loadDialogMessages(messages: MutableList<ChatMessage>) {
+    override fun loadDialogUsers(users: List<String>) {
         val action = ChatFragmentDirections.actionChatFragmentToChatMessagesFragment()
-        action.messages = messages.toTypedArray()
+        action.userIds = users.toTypedArray()
         findNavController().navigate(action)
     }
 

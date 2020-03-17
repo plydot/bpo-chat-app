@@ -8,7 +8,7 @@ class ChatMessagesPresenter: BasePresenter(), ChatMessagesContract.MPresenter {
     private lateinit var dataController: ChatMessagesDataController
 
     override fun onViewInitialized() {
-        getNewMessages()
+        getNewMessages(mView.getViewArguments()?.getStringArray("userIds")?.asList())
 
     }
 
@@ -22,9 +22,10 @@ class ChatMessagesPresenter: BasePresenter(), ChatMessagesContract.MPresenter {
         dataController = ChatMessagesDataController(bDataController.dao)
     }
 
-    override fun getNewMessages() {
+    override fun getNewMessages(users: List<String>?) {
         dataController.bindChatMessages(
             baseView.getLifeCycleOwnerInstance(),
+            users!!,
             mView::updateMessageList
         )
     }

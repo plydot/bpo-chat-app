@@ -5,18 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 
 import com.chat.bposeats.R
 import com.chat.bposeats.architecture.base.BaseFragment
+import com.chat.bposeats.utils.Constants
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter
 import com.stfalcon.chatkit.messages.MessagesListAdapter
 import kotlinx.android.synthetic.main.fragment_chat_messages.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
 
     private lateinit var mPresenter: ChatMessagesPresenter
@@ -29,6 +28,8 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chat_messages, container, false)
     }
+
+
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,7 +52,10 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
     }
 
     override fun updateMessageList(messages: MutableList<IMessage>) {
+
         messageListAdapter.addToEnd(messages, false)
     }
+
+    override fun getViewArguments() = arguments
 
 }

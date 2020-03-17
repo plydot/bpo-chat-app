@@ -33,19 +33,20 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> {
                 val dao = BPChatApp.daoFactory(application as BPChatApp)
-//                val dbUser = User(UUID.randomUUID().toString(), "milton", false, "+256754640689", "milton", "" )
-//                dao.userDao.insert(dbUser)
-//                val lastMessage = ChatMessage(UUID.randomUUID().toString(), "", "Hi", Date(), dbUser, dbUser.dbId)
-//                dao.chatDialogDao.insert(
-//                    ChatDialog(
-//                        UUID.randomUUID().toString(),
-//                        "",
-//                        1,
-//                        lastMessage,
-//                        "",
-//                        mutableListOf(dbUser)
-//                    )
-//                )
+                val dbUser = User(UUID.randomUUID().toString(), "Jimmy", false, "+256754640680", "Jimmy", "" )
+                dao.userDao.insert(dbUser)
+                val lastMessage = ChatMessage(UUID.randomUUID().toString(), "", "Yup!", Date(), dbUser, dbUser.dbId)
+                dao.chatMessageDao.insert(lastMessage)
+                dao.chatDialogDao.insert(
+                    ChatDialog(
+                        UUID.randomUUID().toString(),
+                        "",
+                        1,
+                        lastMessage,
+                        "",
+                        mutableListOf(dbUser)
+                    )
+                )
                 return true
             }
             else -> super.onOptionsItemSelected(item)
