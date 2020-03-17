@@ -9,9 +9,10 @@ import com.stfalcon.chatkit.commons.models.IMessage
 class ChatMessagesDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory = daoFactory), ChatMessagesContract.DataController  {
     override fun bindChatMessages(
         lifeCycleOwner: LifecycleOwner,
+        users: List<String>,
         dialogData: (MutableList<IMessage>) -> Unit
     ) {
-        dao.chatMessageDao.getLiveData().observe(
+        dao.chatMessageDao.dialogMessages(users).observe(
             lifeCycleOwner,
             Observer { o -> dialogData.invoke(o.toMutableList()) }
         )

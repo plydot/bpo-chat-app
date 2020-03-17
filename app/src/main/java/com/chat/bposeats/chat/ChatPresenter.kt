@@ -1,8 +1,10 @@
 package com.chat.bposeats.chat
 
+import android.widget.Toast
 import com.chat.bposeats.architecture.base.BaseContract
 import com.chat.bposeats.architecture.base.BasePresenter
 import com.chat.bposeats.data.data.entity.User
+import com.chat.bposeats.utils.Constants
 import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
 
@@ -33,15 +35,12 @@ class ChatPresenter: BasePresenter(), ChatContract.MPresenter {
         )
     }
 
-    override fun loadDialogMessages(dialog: IDialog<IMessage>) {
+    override fun loadDialogUsers(dialog: IDialog<IMessage>, out: (List<String>) -> (Unit)) {
         val userIds = mutableListOf<String>()
         for (user in dialog.users){
             userIds.add(user.id)
         }
-        dataController.getDialogMessages(
-            userIds,
-            mView::loadDialogMessages
-        )
+        out.invoke(userIds)
     }
 
     override fun attachView(view: BaseContract.MView) {

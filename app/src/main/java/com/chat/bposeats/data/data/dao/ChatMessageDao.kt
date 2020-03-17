@@ -14,7 +14,7 @@ interface ChatMessageDao {
     fun getLiveData(): LiveData<List<ChatMessage>>
 
     @Query("SELECT * FROM ChatMessages WHERE dbUserId IN (:ids)")
-    fun dialogMessages(ids: List<String?>?): LiveData<List<ChatMessage>>
+    fun dialogMessages(ids: List<String>): LiveData<List<ChatMessage>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg message: ChatMessage)

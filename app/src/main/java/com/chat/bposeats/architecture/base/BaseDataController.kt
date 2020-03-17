@@ -9,7 +9,7 @@ open class BaseDataController(daoFactory: DaoFactory) : BaseContract.DataControl
     internal var dao: DaoFactory = daoFactory
     override fun getActiveUser(): User? {
         return try {
-            dao.userDao.getCurrentUser(true).value!![0]
+            dao.userDao.getRawCurrentUser(true)[0]
         }catch (e : Exception){
             null
         }
