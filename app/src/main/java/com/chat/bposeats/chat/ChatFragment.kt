@@ -6,9 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDirections
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import com.chat.bposeats.R
 import com.chat.bposeats.architecture.base.BaseFragment
+import com.chat.bposeats.chat.messages.ChatMessagesFragment
+import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
 import com.github.nkzawa.emitter.Emitter
 import com.squareup.picasso.Picasso
@@ -16,7 +21,9 @@ import com.stfalcon.chatkit.commons.ImageLoader
 import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter
+import com.stfalcon.chatkit.dialogs.DialogsListAdapter.OnDialogLongClickListener
 import kotlinx.android.synthetic.main.fragment_chat.*
+import java.io.Serializable
 
 
 class ChatFragment : BaseFragment(), ChatContract.MView {
@@ -72,8 +79,33 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
             DialogsListAdapter<IDialog<IMessage>>(ImageLoader { imageView, url, payload ->
                 Picasso.get().load(url).into(imageView)
             })
-
         dialogsListAdapter.addItems(emptyDialog)
         dialogsList.setAdapter(dialogsListAdapter)
+        //update dialog lists
+        mPresenter.getDialogs()
     }
+
+    override fun updateDialog(dialogs: List<IDialog<IMessage>>) {
+        for (dialog in dialogs) {
+            dialogsListAdapter.updateItemById(dialog)
+        }
+    }
+
+    override fun getDialogAdapter(): DialogsListAdapter<IDialog<IMessage>> = dialogsListAdapter
+
+    override fun attachedDialogListeners() {
+        dialogsListAdapter.setOnDialogClickListener { dialog ->
+            run {
+                mPresenter.loadDialogMessages(dialog)
+            }
+        }
+    }
+
+    override fun loadDialogMessages(messages: MutableList<ChatMessage>) {
+        val action = ChatFragmentDirections.actionChatFragmentToChatMessagesFragment()
+        action.messages = messages.toTypedArray()
+        findNavController().navigate(action)
+    }
+
+
 }

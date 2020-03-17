@@ -3,6 +3,8 @@ package com.chat.bposeats.chat
 import com.chat.bposeats.architecture.base.BaseContract
 import com.chat.bposeats.architecture.base.BasePresenter
 import com.chat.bposeats.data.data.entity.User
+import com.stfalcon.chatkit.commons.models.IDialog
+import com.stfalcon.chatkit.commons.models.IMessage
 
 class ChatPresenter: BasePresenter(), ChatContract.MPresenter {
 
@@ -24,8 +26,22 @@ class ChatPresenter: BasePresenter(), ChatContract.MPresenter {
         }
     }
 
-    override fun runChat() {
+    override fun getDialogs() {
+        dataController.bindChatDialogs(
+            baseView.getLifeCycleOwnerInstance(),
+            mView::updateDialog
+        )
+    }
 
+    override fun loadDialogMessages(dialog: IDialog<IMessage>) {
+        val userIds = mutableListOf<String>()
+        for (user in dialog.users){
+            userIds.add(user.id)
+        }
+        dataController.getDialogMessages(
+            userIds,
+            mView::loadDialogMessages
+        )
     }
 
     override fun attachView(view: BaseContract.MView) {

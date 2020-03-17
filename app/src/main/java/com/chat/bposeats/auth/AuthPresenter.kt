@@ -17,7 +17,6 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
         if (mView.isSignRequest()){
 
         }
-        mView.setFirebaseAuth()
         if (mView.getPhoneNumber().isEmpty()){
             mView.showAuthError("Phone number required")
         }else {

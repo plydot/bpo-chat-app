@@ -4,16 +4,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.chat.bposeats.architecture.base.BaseDataController
 import com.chat.bposeats.data.data.dao.DaoFactory
+import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
+import com.stfalcon.chatkit.commons.models.IDialog
+import com.stfalcon.chatkit.commons.models.IMessage
 
 class ChatDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory = daoFactory), ChatContract.DataController {
-
-    override fun bindChatData(lifeCycleOwner: LifecycleOwner, newDataBlock: (List<User>?) -> Unit) {
-        dao.userDao.getLiveData().observe(
-            lifeCycleOwner,
-            Observer { data -> newDataBlock.invoke(data.toMutableList()) }
-        )
-    }
 
     override fun bindActiveUser(lifeCycleOwner: LifecycleOwner, userData: (List<User>?) -> Unit) {
         dao.userDao.getCurrentUser(true).observe(
@@ -21,4 +17,19 @@ class ChatDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory
             Observer { o -> userData.invoke(o.toMutableList()) }
         )
     }
+
+    override fun bindChatDialogs(
+        lifeCycleOwner: LifecycleOwner,
+        dialogData: (List<IDialog<IMessage>>) -> Unit
+    ) {
+        dao.chatDialogDao.getLiveData().observe(
+            lifeCycleOwner,
+            Observer { o -> dialogData.invoke(o.toMutableList()) }
+        )
+    }
+
+    override fun getDialogMessages(userIds: List<String>, out: (MutableList<ChatMessage>) -> Unit) {
+        out.invoke(dao.chatMessageDao.dialogMessages(userIds).value!!.toMutableList())
+    }
+
 }
