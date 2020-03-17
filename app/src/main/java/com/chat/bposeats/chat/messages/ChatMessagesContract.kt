@@ -12,13 +12,15 @@ import com.stfalcon.chatkit.dialogs.DialogsListAdapter
 public interface ChatMessagesContract {
     interface MView{
         fun initializeAdapter()
+        fun updateMessageList(messages: MutableList<IMessage>)
     }
 
     interface MPresenter{
         fun onViewInitialized()
+        fun getNewMessages()
     }
 
     interface DataController {
-        fun bindChatMessages(lifeCycleOwner: LifecycleOwner, dialogData: (List<IMessage>) -> (Unit))
+        fun bindChatMessages(lifeCycleOwner: LifecycleOwner, dialogData: (MutableList<IMessage>) -> (Unit))
     }
 }

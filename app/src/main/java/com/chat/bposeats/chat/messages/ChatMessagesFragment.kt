@@ -12,6 +12,7 @@ import com.chat.bposeats.architecture.base.BaseFragment
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter
 import com.stfalcon.chatkit.messages.MessagesListAdapter
+import kotlinx.android.synthetic.main.fragment_chat_messages.*
 
 /**
  * A simple [Fragment] subclass.
@@ -39,6 +40,16 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
         mPresenter.attachView(this)
         //initialize chat ui
         mPresenter.onViewInitialized()
+    }
+
+    override fun initializeAdapter() {
+        messageListAdapter = MessagesListAdapter(mPresenter.getActiveUser()!!.id, null)
+        messageListAdapter.addToEnd(emptyList(), false)
+        messagesList.setAdapter(messageListAdapter)
+    }
+
+    override fun updateMessageList(messages: MutableList<IMessage>) {
+        messageListAdapter.addToEnd(messages, false)
     }
 
 }

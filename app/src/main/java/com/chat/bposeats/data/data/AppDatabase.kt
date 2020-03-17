@@ -7,9 +7,11 @@ import androidx.room.RoomDatabase
 import com.chat.bposeats.data.data.dao.ChatDialogDao
 import com.chat.bposeats.data.data.dao.UserDao
 import com.chat.bposeats.data.data.dao.ChatMessageDao
+import com.chat.bposeats.data.data.entity.ChatDialog
+import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
 
-@Database(entities = [User::class], version = 6)
+@Database(entities = [User::class, ChatMessage::class, ChatDialog::class], version = 8)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

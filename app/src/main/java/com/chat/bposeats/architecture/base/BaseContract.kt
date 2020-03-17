@@ -19,9 +19,10 @@ public interface BaseContract {
     interface MPresenter{
         fun attachView(view: MView)
         fun attachDataController(view: MView)
+        fun getActiveUser() : User?
     }
 
     interface DataController{
-
+        fun getActiveUser() : User?
     }
 }

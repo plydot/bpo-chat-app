@@ -1,6 +1,7 @@
 package com.chat.bposeats.chat
 
 import androidx.lifecycle.LifecycleOwner
+import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
 import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
@@ -22,6 +23,10 @@ public interface ChatContract {
         fun updateDialog(dialogs: List<IDialog<IMessage>>)
         // getter for the chat dialog adapter
         fun getDialogAdapter() : DialogsListAdapter<IDialog<IMessage>>
+        // attaches click listeners to dialog adapter
+        fun attachedDialogListeners()
+
+        fun loadDialogMessages(messages: MutableList<ChatMessage>)
     }
 
     interface MPresenter{
@@ -31,6 +36,8 @@ public interface ChatContract {
         fun logInUser(user: List<User>?)
         // populates dialog adapter with new chat dialogs
         fun getDialogs()
+        //load dialog messages
+        fun loadDialogMessages(dialog: IDialog<IMessage>)
     }
 
     interface DataController {
@@ -38,5 +45,8 @@ public interface ChatContract {
         fun bindActiveUser(lifeCycleOwner: LifecycleOwner, userData: (List<User>?) -> (Unit))
         // gets new dialogs from the db and triggers ui updates
         fun bindChatDialogs(lifeCycleOwner: LifecycleOwner, dialogData: (List<IDialog<IMessage>>) -> (Unit))
+
+        fun getDialogMessages(userIds : List<String>, out: (MutableList<ChatMessage>) -> (Unit))
+
     }
 }

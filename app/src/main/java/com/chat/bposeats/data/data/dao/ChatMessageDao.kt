@@ -3,7 +3,7 @@ package com.chat.bposeats.data.data.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.chat.bposeats.data.data.entity.ChatMessage
-import com.chat.bposeats.data.data.entity.User
+import com.stfalcon.chatkit.commons.models.IUser
 
 @Dao
 interface ChatMessageDao {
@@ -12,6 +12,9 @@ interface ChatMessageDao {
 
     @Query("SELECT * FROM ChatMessages")
     fun getLiveData(): LiveData<List<ChatMessage>>
+
+    @Query("SELECT * FROM ChatMessages WHERE dbUserId IN (:ids)")
+    fun dialogMessages(ids: List<String?>?): LiveData<List<ChatMessage>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg message: ChatMessage)

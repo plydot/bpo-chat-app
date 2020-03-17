@@ -1,24 +1,35 @@
-package com.chat.bposeats.data.data.entity;
+package com.chat.bposeats.data.data.entity
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.chat.bposeats.data.data.dao.convert.IMessageConverter
-import com.chat.bposeats.data.data.dao.convert.IUserConverter
+import com.chat.bposeats.data.data.dao.convert.IUserListConverter
 import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.commons.models.IUser
 
 @Entity(tableName = "ChatDialogs")
-public open class ChatDialog(
+@TypeConverters(IMessageConverter::class, IUserListConverter::class)
+data class ChatDialog(
     @PrimaryKey var dbId : String,
     var dbDialogPhoto: String?,
     var dbUnreadCount: Int,
-    @TypeConverters(IMessageConverter::class) var dbLastMessage: IMessage,
+    var dbLastMessage: ChatMessage,
     var dbDialogName: String,
-    @TypeConverters(IUserConverter::class) var dbUsers: MutableList<IUser>
-): IDialog<IMessage>{
+    var dbUsers: MutableList<User>
+): IDialog<IMessage>, Parcelable{
+    constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
+        parcel.readString(),
+        parcel.readInt(),
+        parcel.readParcelable(ChatMessage::class.java.classLoader)!!,
+        parcel.readString()!!,
+        parcel.readSerializable() as MutableList<User>
+    )
+
     override fun getDialogPhoto(): String {
         return dbDialogPhoto!!
     }
@@ -28,7 +39,7 @@ public open class ChatDialog(
     }
 
     override fun setLastMessage(lastMessage: IMessage?) {
-        dbLastMessage = lastMessage!!
+        dbLastMessage = lastMessage!! as ChatMessage
     }
 
     override fun getId(): String {
@@ -52,6 +63,27 @@ public open class ChatDialog(
             name
         }else{
             dbDialogName
+        }
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(dbId)
+        parcel.writeString(dbDialogPhoto)
+        parcel.writeInt(dbUnreadCount)
+        parcel.writeString(dbDialogName)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<ChatDialog> {
+        override fun createFromParcel(parcel: Parcel): ChatDialog {
+            return ChatDialog(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ChatDialog?> {
+            return arrayOfNulls(size)
         }
     }
 
