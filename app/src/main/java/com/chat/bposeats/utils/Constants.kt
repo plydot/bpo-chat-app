@@ -5,8 +5,8 @@ import com.google.gson.GsonBuilder
 
 public class Constants {
     companion object{
-        val DATE_DISPLAY_FORMAT: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        var DEFAULT_URL: String = "https://d19fdac6.ngrok.io"
+        const val DATE_DISPLAY_FORMAT: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        const val DEFAULT_URL: String = "https://d4d626f8.ngrok.io"
         fun gson():Gson {
             val builder = GsonBuilder()
                     .serializeNulls()

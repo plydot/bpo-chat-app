@@ -26,6 +26,7 @@ public interface AuthContract {
         fun displaySignInUi()
         // returns true if the user is trying to sign, and false for register
         fun isSignRequest(): Boolean
+
     }
 
     interface MPresenter{
@@ -39,6 +40,8 @@ public interface AuthContract {
         fun verifyAuthCode(code: String, verificationId: String?)
         // returns true if the verification was successful
         fun isAuthCodeVerified(task: Task<AuthResult>) : Boolean?
+
+        fun isPhoneRegistered() : Boolean
 
     }
 

@@ -11,7 +11,6 @@ import com.github.nkzawa.socketio.client.Socket
 class BPChatApp: MultiDexApplication() {
 
     private lateinit var mSocket: Socket;
-    private lateinit var lSocket: Socket;
     private lateinit var daoFactory: DaoFactory
 
     override fun onCreate() {
@@ -23,7 +22,6 @@ class BPChatApp: MultiDexApplication() {
         super.attachBaseContext(base)
         MultiDex.install(base)
         mSocket = IO.socket("https://7c7731d7.ngrok.io")
-        lSocket = IO.socket("https://7c7731d7.ngrok.io")
     }
 
     companion object{
@@ -32,9 +30,5 @@ class BPChatApp: MultiDexApplication() {
 
     fun mSocket(): Socket? {
         return mSocket
-    }
-
-    fun lSocket(): Socket?{
-        return lSocket
     }
 }
