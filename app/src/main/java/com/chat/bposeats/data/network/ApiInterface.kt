@@ -15,7 +15,7 @@ interface ApiInterface {
     @GET("api/auth/{phone}/")
     fun checkRegistration(@Path("phone") phone: String) : Call<Boolean?>?
 
-    @POST("/api/users/{phone}/")
+    @GET("/api/users/{phone}/")
     fun getUser(@Path("phone") phone: String) : Call<User?>?
 
     @POST("/api/token/")

@@ -44,7 +44,7 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
             } else {
                 val credentials = RegisterData(
                     mView.getPhoneNumber().replace("+", ""),
-                    "${mView.getPhoneNumber().replace("+", "").toInt() * 2}",
+                    "${mView.getPhoneNumber().replace("+", "").toFloat() * 2}",
                     mView.getFirstName(),
                     mView.getLastName()
                 )
@@ -108,7 +108,7 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
     }
 
     override fun getJwtToken(phone: String) {
-        val token : JwtToken? = networkService.getToken(Auth(phone, "${phone.toInt() * 2}"))
+        val token : JwtToken? = networkService.getToken(Auth(phone, "${phone.toFloat() * 2}"))
         if (token != null){
             dataController.saveJwtToken(token)
         }
@@ -116,10 +116,13 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
 
     private fun saveUser() {
         val phone: String = mView.getPhoneNumber().replace("+", "")
-        val user = networkService.getUser(phone)
         // get access token and save it to db
         getJwtToken(phone)
+
+        val user = networkService.getUser(phone)
+
         if (user != null) {
+            user.current = true
             dataController.addActiveUser(user, mView::close)
         } else {
             mView.showAuthError("Service not available")

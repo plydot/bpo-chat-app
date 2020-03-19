@@ -16,8 +16,8 @@ data class User(
     var current: Boolean,
     @SerializedName("phone") var phone: String,
     @SerializedName("first_name") var firstName: String,
-    @SerializedName("avatar") var dbAvatar: String,
-    var socketSio: String
+    @SerializedName("avatar") var dbAvatar: String?,
+    var socketSio: String?
 ) : IUser, Parcelable, Serializable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -29,7 +29,7 @@ data class User(
         parcel.readString()!!
     )
 
-    override fun getAvatar(): String {
+    override fun getAvatar(): String? {
         return dbAvatar
     }
 

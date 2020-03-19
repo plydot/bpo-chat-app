@@ -1,7 +1,6 @@
 package com.chat.bposeats.auth
 
 import android.app.Dialog
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -96,8 +95,9 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
         val verifyButton = dialog.findViewById<Button>(R.id.btn_verify_code)
         verifyButton.setOnClickListener {
             mPresenter.verifyAuthCode(verifyTextView.text.toString(), verificationId)
+            dialog.dismiss()
         }
-        dialog.show();
+        dialog.show()
     }
 
     override fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
@@ -130,12 +130,12 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
     //closes auth ui and loads default chat ui
     override fun close() {
         activity!!.runOnUiThread {
+            Toast.makeText(activity!!, "error", Toast.LENGTH_LONG).show()
             findNavController().navigate(R.id.action_AuthFragment_to_ChatFragment)
         }
     }
 
     override fun displaySignInUi() {
-
         //set sign note to true
         mSignRequest = true
 

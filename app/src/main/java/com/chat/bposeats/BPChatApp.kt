@@ -4,13 +4,14 @@ import android.content.Context
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.chat.bposeats.data.data.dao.DaoFactory
+import com.chat.bposeats.utils.Constants
 import com.github.nkzawa.socketio.client.IO
 import com.github.nkzawa.socketio.client.Socket
 
 
 class BPChatApp: MultiDexApplication() {
 
-    private lateinit var mSocket: Socket;
+    private lateinit var mSocket: Socket
     private lateinit var daoFactory: DaoFactory
 
     override fun onCreate() {
@@ -21,7 +22,7 @@ class BPChatApp: MultiDexApplication() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(base)
-        mSocket = IO.socket("https://7c7731d7.ngrok.io")
+        mSocket = IO.socket(Constants.DEFAULT_SOCKET_URL)
     }
 
     companion object{

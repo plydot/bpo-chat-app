@@ -27,6 +27,8 @@ public interface ChatContract {
         fun attachedDialogListeners(dialogsListAdapter: DialogsListAdapter<IDialog<IMessage>>)
 
         fun loadDialogUsers(users: List<String>)
+
+        fun connectStatus(sio: String?)
     }
 
     interface MPresenter{
@@ -38,6 +40,8 @@ public interface ChatContract {
         fun getDialogs()
         //load dialog messages
         fun loadDialogUsers(dialog: IDialog<IMessage>, out: (List<String>) -> (Unit))
+
+        fun connectSocket(connect: (String) -> (Unit))
     }
 
     interface DataController {
