@@ -4,10 +4,7 @@ import android.os.AsyncTask
 import android.view.View
 import com.chat.bposeats.architecture.base.BaseContract
 import com.chat.bposeats.architecture.base.BasePresenter
-import com.chat.bposeats.data.data.entity.Auth
-import com.chat.bposeats.data.data.entity.AuthResponse
-import com.chat.bposeats.data.data.entity.RegisterData
-import com.chat.bposeats.data.data.entity.User
+import com.chat.bposeats.data.data.entity.*
 import com.chat.bposeats.data.network.Routines
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -74,8 +71,6 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
         }
     }
 
-
-
     override fun processFirebasePhoneAuth() {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
             mView.getPhoneNumber(), // Phone number to verify
@@ -112,13 +107,20 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
         return isRegistered!!
     }
 
-    fun saveUser() {
-        val user = networkService.getUser(mView.getPhoneNumber().replace("+", ""))
+    override fun getJwtToken(phone: String) {
+        val token : JwtToken? = networkService.getToken(Auth(phone, "${phone.toInt() * 2}"))
+        if (token != null){
+            dataController.saveJwtToken(token)
+        }
+    }
+
+    private fun saveUser() {
+        val phone: String = mView.getPhoneNumber().replace("+", "")
+        val user = networkService.getUser(phone)
+        // get access token and save it to db
+        getJwtToken(phone)
         if (user != null) {
-            dataController.addActiveUser(
-                user,
-                mView::close
-            )
+            dataController.addActiveUser(user, mView::close)
         } else {
             mView.showAuthError("Service not available")
         }
@@ -127,7 +129,7 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
     override fun attachView(view: BaseContract.MView) {
         super.attachView(view)
         mView = view as AuthContract.MView
-        networkService = Routines()
+        networkService = Routines(baseView.getCurrentContext())
     }
 
     override fun attachDataController(view: BaseContract.MView) {

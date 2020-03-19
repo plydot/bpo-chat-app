@@ -1,5 +1,6 @@
 package com.chat.bposeats.auth
 
+import com.chat.bposeats.data.data.entity.JwtToken
 import com.chat.bposeats.data.data.entity.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -44,10 +45,14 @@ public interface AuthContract {
 
         fun isPhoneRegistered() : Boolean
 
+        fun getJwtToken(phone: String)
+
     }
 
     interface DataController {
         // saves active user to db and triggers UI updates
         fun addActiveUser(user: User, reload: () -> (Unit))
+
+        fun saveJwtToken(jwtToken: JwtToken)
     }
 }

@@ -1,9 +1,6 @@
 package com.chat.bposeats.data.network
 
-import com.chat.bposeats.data.data.entity.Auth
-import com.chat.bposeats.data.data.entity.AuthResponse
-import com.chat.bposeats.data.data.entity.RegisterData
-import com.chat.bposeats.data.data.entity.User
+import com.chat.bposeats.data.data.entity.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,5 +17,8 @@ interface ApiInterface {
 
     @POST("/api/users/{phone}/")
     fun getUser(@Path("phone") phone: String) : Call<User?>?
+
+    @POST("/api/token/")
+    fun getToken(@Body auth: Auth) : Call<JwtToken?>?
 
 }

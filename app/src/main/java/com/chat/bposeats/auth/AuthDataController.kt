@@ -2,6 +2,7 @@ package com.chat.bposeats.auth
 
 import com.chat.bposeats.architecture.base.BaseDataController
 import com.chat.bposeats.data.data.dao.DaoFactory
+import com.chat.bposeats.data.data.entity.JwtToken
 import com.chat.bposeats.data.data.entity.User
 import java.util.*
 
@@ -12,5 +13,10 @@ class AuthDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory
         // add an new user record
         dao.userDao.insert(user)
         reload.invoke()
+    }
+
+    override fun saveJwtToken(jwtToken: JwtToken) {
+        dao.jwtDao.delete()
+        dao.jwtDao.insert(jwtToken)
     }
 }

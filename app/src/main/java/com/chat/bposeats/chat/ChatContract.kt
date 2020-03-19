@@ -46,7 +46,5 @@ public interface ChatContract {
         // gets new dialogs from the db and triggers ui updates
         fun bindChatDialogs(lifeCycleOwner: LifecycleOwner, dialogData: (List<IDialog<IMessage>>) -> (Unit))
 
-//        fun getDialogMessages(userIds : List<String>, out: (MutableList<ChatMessage>) -> (Unit))
-
     }
 }
