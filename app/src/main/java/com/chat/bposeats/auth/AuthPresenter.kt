@@ -4,6 +4,9 @@ import android.os.AsyncTask
 import android.view.View
 import com.chat.bposeats.architecture.base.BaseContract
 import com.chat.bposeats.architecture.base.BasePresenter
+import com.chat.bposeats.data.data.entity.Auth
+import com.chat.bposeats.data.data.entity.AuthResponse
+import com.chat.bposeats.data.data.entity.RegisterData
 import com.chat.bposeats.data.network.Routines
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -32,21 +35,44 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
                     mView.showAuthError("Phone number already registered, Sign in to continue")
                 }
             }
-            if (mView.getPhoneNumber().isEmpty()){
-                mView.showAuthError("Phone number required")
-            }else {
-                processFirebasePhoneAuth()
-            }
         }
 
     }
 
     override fun signIn() {
-        dataController.addActiveUser(
-            "${mView.getFirstName()} ${mView.getLastName()}",
-            mView.getPhoneNumber(),
-            mView::close
-        )
+        AsyncTask.execute {
+            val credentials = RegisterData(
+                mView.getPhoneNumber().replace("+", ""),
+                "${mView.getPhoneNumber().replace("+", "").toInt() * 2}",
+                mView.getFirstName(),
+                mView.getLastName()
+            )
+            var authStatus: AuthResponse? = networkService.register(credentials)
+
+            if (authStatus != null){
+                if(authStatus.errors.isNotEmpty()){
+                    var errr = ""
+                    for (err: String in authStatus.errors){
+                        errr += err
+                    }
+                    mView.showAuthError(errr)
+                }else{
+                    if (authStatus.data.success){
+
+                    }else{
+                        mView.showAuthError("Service not available")
+                    }
+                }
+            }else{
+                mView.showAuthError("Service not available")
+            }
+
+            dataController.addActiveUser(
+                "${mView.getFirstName()} ${mView.getLastName()}",
+                mView.getPhoneNumber(),
+                mView::close
+            )
+        }
     }
 
     override fun processFirebasePhoneAuth() {

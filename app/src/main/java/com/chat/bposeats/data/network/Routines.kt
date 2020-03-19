@@ -2,6 +2,7 @@ package com.chat.bposeats.data.network
 
 import com.chat.bposeats.data.data.entity.Auth
 import com.chat.bposeats.data.data.entity.AuthResponse
+import com.chat.bposeats.data.data.entity.RegisterData
 import com.plydot.sms.bulksms.webservice.HttpService
 import retrofit2.Response
 import java.io.IOException
@@ -18,7 +19,7 @@ class Routines() {
         service = HttpService.service()
     }
 
-    public fun register(credentials: Auth): AuthResponse?{
+    public fun register(credentials: RegisterData): AuthResponse?{
         return try {
             val response: Response<AuthResponse?> = service!!.register(credentials)!!.execute()
             if (response.isSuccessful && response.body() != null) {

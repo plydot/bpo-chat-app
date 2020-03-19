@@ -129,7 +129,9 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
 
     //closes auth ui and loads default chat ui
     override fun close() {
-        findNavController().navigate(R.id.action_AuthFragment_to_ChatFragment)
+        activity!!.runOnUiThread {
+            findNavController().navigate(R.id.action_AuthFragment_to_ChatFragment)
+        }
     }
 
     override fun displaySignInUi() {
