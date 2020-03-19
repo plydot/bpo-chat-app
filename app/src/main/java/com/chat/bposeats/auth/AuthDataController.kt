@@ -6,11 +6,11 @@ import com.chat.bposeats.data.data.entity.User
 import java.util.*
 
 class AuthDataController(daoFactory: DaoFactory) : BaseDataController(daoFactory = daoFactory), AuthContract.DataController {
-    override fun addActiveUser(name: String, phone: String, reload: () -> Unit) {
+    override fun addActiveUser(user: User, reload: () -> Unit) {
         //delete all current entries
         dao.userDao.delete()
         // add an new user record
-        dao.userDao.insert(User(UUID.randomUUID().toString(), phone, true, phone, name, ""))
+        dao.userDao.insert(user)
         reload.invoke()
     }
 }

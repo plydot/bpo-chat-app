@@ -11,7 +11,7 @@ import com.chat.bposeats.data.data.entity.ChatDialog
 import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
 
-@Database(entities = [User::class, ChatMessage::class, ChatDialog::class], version = 8)
+@Database(entities = [User::class, ChatMessage::class, ChatDialog::class], version = 9)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

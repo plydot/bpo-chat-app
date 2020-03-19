@@ -7,6 +7,7 @@ import com.chat.bposeats.architecture.base.BasePresenter
 import com.chat.bposeats.data.data.entity.Auth
 import com.chat.bposeats.data.data.entity.AuthResponse
 import com.chat.bposeats.data.data.entity.RegisterData
+import com.chat.bposeats.data.data.entity.User
 import com.chat.bposeats.data.network.Routines
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -41,39 +42,39 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
 
     override fun signIn() {
         AsyncTask.execute {
-            val credentials = RegisterData(
-                mView.getPhoneNumber().replace("+", ""),
-                "${mView.getPhoneNumber().replace("+", "").toInt() * 2}",
-                mView.getFirstName(),
-                mView.getLastName()
-            )
-            var authStatus: AuthResponse? = networkService.register(credentials)
+            if (mView.isSignRequest()) {
+                saveUser()
+            } else {
+                val credentials = RegisterData(
+                    mView.getPhoneNumber().replace("+", ""),
+                    "${mView.getPhoneNumber().replace("+", "").toInt() * 2}",
+                    mView.getFirstName(),
+                    mView.getLastName()
+                )
+                val authStatus: AuthResponse? = networkService.register(credentials)
 
-            if (authStatus != null){
-                if(authStatus.errors.isNotEmpty()){
-                    var errr = ""
-                    for (err: String in authStatus.errors){
-                        errr += err
+                if (authStatus != null) {
+                    if (authStatus.errors.isNotEmpty()) {
+                        var errr = ""
+                        for (err: String in authStatus.errors) {
+                            errr += err
+                        }
+                        mView.showAuthError(errr)
+                    } else {
+                        if (authStatus.data.success) {
+                            saveUser()
+                        } else {
+                            mView.showAuthError("Service not available")
+                        }
                     }
-                    mView.showAuthError(errr)
-                }else{
-                    if (authStatus.data.success){
-
-                    }else{
-                        mView.showAuthError("Service not available")
-                    }
+                } else {
+                    mView.showAuthError("Service not available")
                 }
-            }else{
-                mView.showAuthError("Service not available")
             }
-
-            dataController.addActiveUser(
-                "${mView.getFirstName()} ${mView.getLastName()}",
-                mView.getPhoneNumber(),
-                mView::close
-            )
         }
     }
+
+
 
     override fun processFirebasePhoneAuth() {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -109,6 +110,18 @@ class AuthPresenter: BasePresenter(), AuthContract.MPresenter {
             networkService.checkRegistration(mView.getPhoneNumber().replace("+", ""))
                 ?: return false
         return isRegistered!!
+    }
+
+    fun saveUser() {
+        val user = networkService.getUser(mView.getPhoneNumber().replace("+", ""))
+        if (user != null) {
+            dataController.addActiveUser(
+                user,
+                mView::close
+            )
+        } else {
+            mView.showAuthError("Service not available")
+        }
     }
 
     override fun attachView(view: BaseContract.MView) {

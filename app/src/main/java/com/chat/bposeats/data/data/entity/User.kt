@@ -5,22 +5,25 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import com.stfalcon.chatkit.commons.models.IUser
 import java.io.Serializable
 
 @Entity(tableName = "Users", indices = [Index(value = ["phone"], unique = true)])
 data class User(
-    @PrimaryKey var dbId: String,
-    var username: String,
+    @SerializedName("id") @PrimaryKey var dbId: String,
+    @SerializedName("last_name") var lastName: String,
     var current: Boolean,
-    var phone: String,
-    var dbName: String,
-    var dbAvatar: String
+    @SerializedName("phone") var phone: String,
+    @SerializedName("first_name") var firstName: String,
+    @SerializedName("avatar") var dbAvatar: String,
+    var socketSio: String
 ) : IUser, Parcelable, Serializable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!
@@ -31,7 +34,7 @@ data class User(
     }
 
     override fun getName(): String {
-        return dbName
+        return firstName
     }
 
     override fun getId(): String {
@@ -40,10 +43,10 @@ data class User(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(dbId)
-        parcel.writeString(username)
+        parcel.writeString(lastName)
         parcel.writeByte(if (current) 1 else 0)
         parcel.writeString(phone)
-        parcel.writeString(dbName)
+        parcel.writeString(firstName)
         parcel.writeString(dbAvatar)
     }
 
