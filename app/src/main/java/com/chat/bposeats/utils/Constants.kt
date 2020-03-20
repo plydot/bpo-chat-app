@@ -7,7 +7,7 @@ public class Constants {
     companion object{
         const val DATE_DISPLAY_FORMAT: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         const val DEFAULT_URL: String = "https://bpo.http.plydot.com"
-        const val DEFAULT_SOCKET_URL: String = "https://bb9d3cbe.ngrok.io"
+        const val DEFAULT_SOCKET_URL: String = "https://bpo.socket.plydot.com"
         fun gson():Gson {
             val builder = GsonBuilder()
                     .serializeNulls()

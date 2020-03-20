@@ -6,9 +6,17 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 
 public open class BaseFragment: Fragment(), BaseContract.MView {
+
     override fun getLifeCycleOwnerInstance(): LifecycleOwner = this
 
     override fun application(): Application = activity!!.application
     override fun getCurrentContext(): FragmentActivity = this.activity!!
+    override fun showProgressDialog() {
+        TODO("Not yet implemented")
+    }
+
+    override fun dismissProgressDialog() {
+        TODO("Not yet implemented")
+    }
 
 }

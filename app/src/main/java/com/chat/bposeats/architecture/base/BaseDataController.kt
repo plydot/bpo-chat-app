@@ -21,6 +21,10 @@ open class BaseDataController(daoFactory: DaoFactory) : BaseContract.DataControl
         return dao.userDao.getUser(phone)
     }
 
+    override fun getUserById(id: String): User? {
+        return dao.userDao.getUserById(id)
+    }
+
     override fun saveDialog(dialog: ChatDialog) {
         dao.chatDialogDao.insert(dialog)
     }

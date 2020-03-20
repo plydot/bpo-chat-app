@@ -22,8 +22,9 @@ class ChatMessagesDataController(daoFactory: DaoFactory) : BaseDataController(da
     }
 
     override fun saveNewChatMessage(message: String, user: User, out: (IMessage) -> Unit) {
-        val lastMessage = ChatMessage(UUID.randomUUID().toString(), user.name,
-            message, Date(), user, user.dbId
+        val data = message.split("__SEP__")
+        val lastMessage = ChatMessage(data[2], user.name,
+            data[0], Date(), user, user.dbId
         )
         dao.chatMessageDao.insert(lastMessage)
         out.invoke(lastMessage)

@@ -31,9 +31,12 @@ class AccountPresenter : BasePresenter(), AccountsContract.MPresenter {
         AsyncTask.execute {
             val users = networkService.getUsers(getPhoneBookNumbers())
             if (users != null) {
+                val activeUser = dataController.getActiveUser()!!
                 for (user: User in users) {
-                    user.current = false
-                    dataController.updateUser(user)
+                    if (user.phone != activeUser.phone) {
+                        user.current = false
+                        dataController.updateUser(user)
+                    }
                 }
             }
         }
@@ -44,10 +47,12 @@ class AccountPresenter : BasePresenter(), AccountsContract.MPresenter {
         val numbers: MutableList<String> = mutableListOf()
         for (contact: Contact in contacts) {
             for (n: PhoneNumber in contact.phoneNumbers) {
-                val number = n.normalizedNumber.replace("+", "")
-                if (!numbers.contains(number)) {
-                    numbers.add(number)
-                }
+                try {
+                    val number = n.normalizedNumber.replace("+", "")
+                    if (!numbers.contains(number)) {
+                        numbers.add(number)
+                    }
+                }catch (e: Exception){}
             }
         }
         return numbers
@@ -58,7 +63,7 @@ class AccountPresenter : BasePresenter(), AccountsContract.MPresenter {
         for (user in dialog.users) {
             userIds.add(user.id)
         }
-        userIds.add(getActiveUser()!!.dbId)
+        userIds.add(dataController.getActiveUser()!!.dbId)
         out.invoke(userIds)
     }
 
@@ -75,6 +80,7 @@ class AccountPresenter : BasePresenter(), AccountsContract.MPresenter {
         super.attachView(view)
         mView = view as AccountsContract.MView
         networkService = Routines(baseView.getCurrentContext())
+
     }
 
     override fun attachDataController(view: BaseContract.MView) {

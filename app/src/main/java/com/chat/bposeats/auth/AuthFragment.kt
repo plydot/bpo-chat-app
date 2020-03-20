@@ -130,7 +130,6 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
     //closes auth ui and loads default chat ui
     override fun close() {
         activity!!.runOnUiThread {
-            Toast.makeText(activity!!, "error", Toast.LENGTH_LONG).show()
             findNavController().navigate(R.id.action_AuthFragment_to_ChatFragment)
         }
     }

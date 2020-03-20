@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.chat.bposeats.R
 import com.chat.bposeats.architecture.base.BaseFragment
+import com.chat.bposeats.data.data.entity.ChatMessage
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.messages.MessagesListAdapter
 import kotlinx.android.synthetic.main.fragment_chat_messages.*
@@ -54,14 +56,24 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
     override fun attachInputListener(adapter: MessagesListAdapter<IMessage>) {
         message_input.setInputListener { input: CharSequence? ->
             kotlin.run {
-                mPresenter.sendNewMessage(input.toString(), mPresenter.getActiveUser()!!)
+                for (m in arguments!!.getStringArray("userIds")!!.asList()){
+                    val user = mPresenter.getUserById(m)!!
+                    Toast.makeText(activity!!, user.phone, Toast.LENGTH_LONG).show()
+                    if(user.phone != mPresenter.getActiveUser()!!.phone){
+                        mPresenter.sendNewMessage(input.toString(), user.phone)
+                        break
+                    }
+                }
                 true
             }
         }
     }
 
     override fun updateWithNewMessage(message: IMessage) {
-        messageListAdapter.addToStart(message, true)
+        val list = mutableListOf<IMessage>()
+        list.add(message)
+        messageListAdapter.addToEnd(list, true)
+        messageListAdapter.notifyDataSetChanged()
     }
 
 }

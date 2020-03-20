@@ -50,8 +50,8 @@ data class ChatDialog(
         return dbUsers
     }
 
-    override fun getLastMessage(): IMessage {
-        return dbLastMessage!!
+    override fun getLastMessage(): IMessage? {
+        return dbLastMessage
     }
 
     override fun getDialogName(): String {
