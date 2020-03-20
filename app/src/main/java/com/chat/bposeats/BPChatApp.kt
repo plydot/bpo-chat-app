@@ -7,6 +7,7 @@ import com.chat.bposeats.data.data.dao.DaoFactory
 import com.chat.bposeats.utils.Constants
 import com.github.nkzawa.socketio.client.IO
 import com.github.nkzawa.socketio.client.Socket
+import com.github.tamir7.contacts.Contacts
 
 
 class BPChatApp: MultiDexApplication() {
@@ -17,6 +18,7 @@ class BPChatApp: MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         daoFactory = DaoFactory(applicationContext)
+        Contacts.initialize(this)
     }
 
     override fun attachBaseContext(base: Context?) {

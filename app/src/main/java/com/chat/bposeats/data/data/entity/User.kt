@@ -34,7 +34,7 @@ data class User(
     }
 
     override fun getName(): String {
-        return firstName
+        return "$firstName $lastName"
     }
 
     override fun getId(): String {

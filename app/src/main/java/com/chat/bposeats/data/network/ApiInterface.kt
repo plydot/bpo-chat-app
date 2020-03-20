@@ -21,4 +21,7 @@ interface ApiInterface {
     @POST("/api/token/")
     fun getToken(@Body auth: Auth) : Call<JwtToken?>?
 
+    @POST("/api/users/?q=1")
+    fun getUsers(@Body phones: List<String>): Call<List<User>?>?
+
 }

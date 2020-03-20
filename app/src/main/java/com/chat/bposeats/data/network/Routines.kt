@@ -69,6 +69,23 @@ class Routines(var context: Context) {
         }
     }
 
+    fun getUsers(phones: List<String>): List<User>?{
+        return try {
+            val response: Response<List<User>?> = service!!.getUsers(phones)!!.execute()
+            if (response.isSuccessful && response.body() != null) {
+                response.body()
+            } else {
+                throw NullPointerException()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     fun getToken(auth: Auth): JwtToken?{
         return try {
             val response: Response<JwtToken?> = service!!.getToken(auth)!!.execute()
