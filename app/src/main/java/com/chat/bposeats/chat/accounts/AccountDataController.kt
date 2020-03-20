@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.chat.bposeats.architecture.base.BaseDataController
 import com.chat.bposeats.data.data.dao.DaoFactory
+import com.chat.bposeats.data.data.entity.ChatDialog
 import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
 import com.stfalcon.chatkit.commons.models.IDialog
@@ -20,5 +21,9 @@ class AccountDataController(daoFactory: DaoFactory) : BaseDataController(daoFact
 
     override fun updateUser(users: User) {
         dao.userDao.insert(users)
+    }
+
+    override fun saveDialog(dialog: ChatDialog) {
+        dao.chatDialogDao.insert(dialog)
     }
 }

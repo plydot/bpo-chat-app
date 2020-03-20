@@ -7,17 +7,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.chat.bposeats.BPChatApp
 import com.chat.bposeats.R
+import com.chat.bposeats.data.data.entity.ChatDialog
 import com.chat.bposeats.data.data.entity.User
 import kotlinx.android.synthetic.main.fragment_user_account.view.*
 
 
-class UserAccountRecyclerViewAdapter : RecyclerView.Adapter<UserAccountRecyclerViewAdapter.ViewHolder>() {
+class UserAccountRecyclerViewAdapter(val presenter: AccountPresenter) : RecyclerView.Adapter<UserAccountRecyclerViewAdapter.ViewHolder>() {
 
     private val mValues: MutableList<User> = emptyList<User>().toMutableList()
-
-    private val mOnClickListener: View.OnClickListener = View.OnClickListener {
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,10 +28,8 @@ class UserAccountRecyclerViewAdapter : RecyclerView.Adapter<UserAccountRecyclerV
         val item = mValues[position]
         holder.mIdView.text = item.name
         holder.mContentView.text = item.phone
-
-        with(holder.mView) {
-            tag = item
-            setOnClickListener(mOnClickListener)
+        holder.mView.setOnClickListener {
+            presenter.startDialog(item)
         }
     }
 
@@ -43,6 +40,7 @@ class UserAccountRecyclerViewAdapter : RecyclerView.Adapter<UserAccountRecyclerV
         mValues.clear()
         mValues.addAll(newData)
         diffResult.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = mValues.size

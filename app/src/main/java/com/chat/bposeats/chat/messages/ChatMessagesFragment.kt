@@ -54,7 +54,7 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
     override fun attachInputListener(adapter: MessagesListAdapter<IMessage>) {
         message_input.setInputListener { input: CharSequence? ->
             kotlin.run {
-                mPresenter.addNewMessage(input.toString(), mPresenter.getActiveUser()!!)
+                mPresenter.sendNewMessage(input.toString(), mPresenter.getActiveUser()!!)
                 true
             }
         }

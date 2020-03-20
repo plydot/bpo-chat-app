@@ -17,7 +17,7 @@ data class ChatDialog(
     @PrimaryKey var dbId : String,
     var dbDialogPhoto: String?,
     var dbUnreadCount: Int,
-    var dbLastMessage: ChatMessage,
+    var dbLastMessage: ChatMessage?,
     var dbDialogName: String,
     var dbUsers: MutableList<User>
 ): IDialog<IMessage>, Parcelable{
@@ -51,7 +51,7 @@ data class ChatDialog(
     }
 
     override fun getLastMessage(): IMessage {
-        return dbLastMessage
+        return dbLastMessage!!
     }
 
     override fun getDialogName(): String {

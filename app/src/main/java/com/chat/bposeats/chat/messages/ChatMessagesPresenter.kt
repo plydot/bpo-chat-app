@@ -5,10 +5,14 @@ import com.chat.bposeats.architecture.base.BaseContract
 import com.chat.bposeats.architecture.base.BasePresenter
 import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
+import com.github.nkzawa.emitter.Emitter
+import com.github.nkzawa.socketio.client.Socket
+import org.json.JSONObject
 
 class ChatMessagesPresenter: BasePresenter(), ChatMessagesContract.MPresenter {
     private lateinit var mView: ChatMessagesContract.MView
     private lateinit var dataController: ChatMessagesDataController
+    private lateinit var mSocket: Socket
 
     override fun onViewInitialized() {
         getNewMessages(mView.getViewArguments()?.getStringArray("userIds")?.asList())
@@ -34,13 +38,27 @@ class ChatMessagesPresenter: BasePresenter(), ChatMessagesContract.MPresenter {
     }
 
     override fun addNewMessage(message: String, user: User) {
-//        val dao = BPChatApp.daoFactory(activity!!.application as BPChatApp)
-//        val dbUser = dao.userDao.getRawCurrentUser(true)[0]
-
         dataController.saveNewChatMessage(
             message,
             user,
             mView::updateWithNewMessage
         )
+    }
+
+    override fun sendNewMessage(message: String, user: User) {
+        mSocket = getSocket()
+        mSocket.connect()
+        val obj = JSONObject()
+        obj.put("sender", user.phone)
+        obj.put("message", message)
+        mSocket.emit("send_message", obj)
+        mSocket.on("message_response", messageEmitter(user))
+    }
+
+    override fun messageEmitter(user: User): Emitter.Listener {
+        return Emitter.Listener { args ->
+            val data = args[0].toString()
+            addNewMessage(data, user)
+        }
     }
 }
