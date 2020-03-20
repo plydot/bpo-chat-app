@@ -21,6 +21,9 @@ interface UserDao {
     @Query("SELECT * FROM Users WHERE current = :current")
     fun getRawCurrentUser(current: Boolean = true) : List<User>
 
+    @Query("SELECT * FROM Users WHERE phone = :phone")
+    fun getUser(phone: String) : User?
+
     @Query("DELETE FROM Users WHERE dbId LIKE :string")
     fun deleteItem(string: String)
 

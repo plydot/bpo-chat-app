@@ -27,6 +27,8 @@ public interface ChatContract {
         fun attachedDialogListeners(dialogsListAdapter: DialogsListAdapter<IDialog<IMessage>>)
 
         fun loadDialogUsers(users: List<String>)
+
+        fun connectStatus(sio: String?)
     }
 
     interface MPresenter{
@@ -38,6 +40,10 @@ public interface ChatContract {
         fun getDialogs()
         //load dialog messages
         fun loadDialogUsers(dialog: IDialog<IMessage>, out: (List<String>) -> (Unit))
+
+        fun connectSocket(connect: (String) -> (Unit))
+
+        fun handleNewMessage()
     }
 
     interface DataController {
@@ -45,8 +51,6 @@ public interface ChatContract {
         fun bindActiveUser(lifeCycleOwner: LifecycleOwner, userData: (List<User>?) -> (Unit))
         // gets new dialogs from the db and triggers ui updates
         fun bindChatDialogs(lifeCycleOwner: LifecycleOwner, dialogData: (List<IDialog<IMessage>>) -> (Unit))
-
-//        fun getDialogMessages(userIds : List<String>, out: (MutableList<ChatMessage>) -> (Unit))
 
     }
 }

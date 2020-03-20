@@ -8,11 +8,13 @@ class DaoFactory(application: Context) {
     var userDao: UserDao
     var chatMessageDao : ChatMessageDao
     var chatDialogDao : ChatDialogDao
+    var jwtDao : JwtDao
 
     init {
         userDao = db.userDao()
         chatMessageDao = db.chatMessageDao()
         chatDialogDao = db.chatDialogDao()
+        jwtDao = db.jwtDao()
     }
 
 }

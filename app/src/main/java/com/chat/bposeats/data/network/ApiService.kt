@@ -1,6 +1,8 @@
 package com.plydot.sms.bulksms.webservice
 
 import android.annotation.SuppressLint
+import android.content.Context
+import com.chat.bposeats.BPChatApp
 import com.chat.bposeats.data.network.ApiInterface
 import com.chat.bposeats.utils.Constants
 import com.google.gson.GsonBuilder
@@ -18,7 +20,7 @@ import javax.net.ssl.*
 
 
 object HttpService {
-    fun service(): ApiInterface {
+    fun service(context: Context): ApiInterface {
         val builder: GsonBuilder = GsonBuilder()
             .serializeNulls()
             .registerTypeAdapter(Date::class.java, DateTypeAdapter())
@@ -32,6 +34,11 @@ object HttpService {
             // Request customization: add request headers
             val requestBuilder: Request.Builder = original.newBuilder()
             requestBuilder.addHeader("Accept", "application/json")
+            val daoFactory = BPChatApp.daoFactory(context.applicationContext as BPChatApp)
+            try {
+                val token = daoFactory.jwtDao.getAll()[0].access
+                requestBuilder.addHeader("Authorization", "Bearer $token")
+            }catch (e: Exception){}
             val request: Request = requestBuilder.build()
             chain.proceed(request)
         }

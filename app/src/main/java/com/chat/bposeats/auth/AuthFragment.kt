@@ -26,7 +26,11 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
     private lateinit var mPresenter: AuthPresenter
     private var mSignRequest: Boolean = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_auth, container, false)
     }
@@ -41,7 +45,7 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
             mPresenter.signUp()
         }
 
-        link_login.setOnClickListener{
+        link_login.setOnClickListener {
             displaySignInUi()
         }
     }
@@ -66,7 +70,10 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
                 }
             }
 
-            override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+            override fun onCodeSent(
+                verificationId: String,
+                token: PhoneAuthProvider.ForceResendingToken
+            ) {
                 // Save verification ID and resending token so we can use them later
                 showVerifyAuthCodeUI(verificationId)
             }
@@ -74,7 +81,9 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
     }
 
     override fun showAuthError(error: String) {
-        Toast.makeText(activity!!, error, Toast.LENGTH_LONG).show()
+        activity!!.runOnUiThread {
+            Toast.makeText(activity!!, error, Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun showVerifyAuthCodeUI(verificationId: String) {
@@ -86,22 +95,28 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
         val verifyButton = dialog.findViewById<Button>(R.id.btn_verify_code)
         verifyButton.setOnClickListener {
             mPresenter.verifyAuthCode(verifyTextView.text.toString(), verificationId)
+            dialog.dismiss()
         }
-        dialog.show();
+        dialog.show()
     }
 
     override fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(activity!!) { task ->
                 val success: Boolean? = mPresenter.isAuthCodeVerified(task)
-                if (success != null){
-                    if (success){
+                if (success != null) {
+                    if (success) {
                         mPresenter.signIn()
-                    }else{
-                        Toast.makeText(activity!!, getString(R.string.invalid_verification_code), Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(
+                            activity!!,
+                            getString(R.string.invalid_verification_code),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
-                }else{
-                    Toast.makeText(activity!!, getString(R.string.unknown_error), Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(activity!!, getString(R.string.unknown_error), Toast.LENGTH_LONG)
+                        .show()
                 }
             }
     }
@@ -114,11 +129,13 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
 
     //closes auth ui and loads default chat ui
     override fun close() {
-        findNavController().navigate(R.id.action_AuthFragment_to_ChatFragment)
+        activity!!.runOnUiThread {
+            Toast.makeText(activity!!, "error", Toast.LENGTH_LONG).show()
+            findNavController().navigate(R.id.action_AuthFragment_to_ChatFragment)
+        }
     }
 
     override fun displaySignInUi() {
-
         //set sign note to true
         mSignRequest = true
 
@@ -127,14 +144,14 @@ class AuthFragment : BaseFragment(), AuthContract.MView {
         btn_signup.text = getString(R.string.sigin_in)
         link_login.text = getString(R.string.not_registered_signup)
 
-        link_login.setOnClickListener{
+        link_login.setOnClickListener {
             //set sign in not to false
             mSignRequest = false
             first_name.visibility = View.VISIBLE
             last_name.visibility = View.VISIBLE
             btn_signup.text = getString(R.string.create_account)
             link_login.text = getString(R.string.already_registered_login)
-            link_login.setOnClickListener{
+            link_login.setOnClickListener {
                 displaySignInUi()
             }
         }

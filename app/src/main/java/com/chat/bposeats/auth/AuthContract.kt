@@ -1,5 +1,7 @@
 package com.chat.bposeats.auth
 
+import com.chat.bposeats.data.data.entity.JwtToken
+import com.chat.bposeats.data.data.entity.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +28,7 @@ public interface AuthContract {
         fun displaySignInUi()
         // returns true if the user is trying to sign, and false for register
         fun isSignRequest(): Boolean
+
     }
 
     interface MPresenter{
@@ -40,10 +43,16 @@ public interface AuthContract {
         // returns true if the verification was successful
         fun isAuthCodeVerified(task: Task<AuthResult>) : Boolean?
 
+        fun isPhoneRegistered() : Boolean
+
+        fun getJwtToken(phone: String)
+
     }
 
     interface DataController {
         // saves active user to db and triggers UI updates
-        fun addActiveUser(name: String, phone: String, reload: () -> (Unit))
+        fun addActiveUser(user: User, reload: () -> (Unit))
+
+        fun saveJwtToken(jwtToken: JwtToken)
     }
 }

@@ -7,27 +7,36 @@ import androidx.room.RoomDatabase
 import com.chat.bposeats.data.data.dao.ChatDialogDao
 import com.chat.bposeats.data.data.dao.UserDao
 import com.chat.bposeats.data.data.dao.ChatMessageDao
+import com.chat.bposeats.data.data.dao.JwtDao
 import com.chat.bposeats.data.data.entity.ChatDialog
 import com.chat.bposeats.data.data.entity.ChatMessage
+import com.chat.bposeats.data.data.entity.JwtToken
 import com.chat.bposeats.data.data.entity.User
 
-@Database(entities = [User::class, ChatMessage::class, ChatDialog::class], version = 8)
+@Database(
+    entities = [User::class, ChatMessage::class, ChatDialog::class, JwtToken::class],
+    version = 10
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun chatMessageDao(): ChatMessageDao
     abstract fun chatDialogDao(): ChatDialogDao
+    abstract fun jwtDao(): JwtDao
 
     companion object {
-        @Volatile private var instance: AppDatabase? = null
+        @Volatile
+        private var instance: AppDatabase? = null
         private val LOCK = Any()
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK){
-            instance ?: buildDatabase(context).also { instance = it}
+        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+            instance ?: buildDatabase(context).also { instance = it }
         }
 
-        private fun buildDatabase(context: Context) = Room.databaseBuilder(context,
-            AppDatabase::class.java, "sms.db")
+        private fun buildDatabase(context: Context) = Room.databaseBuilder(
+                context,
+                AppDatabase::class.java, "sms.db"
+            )
             .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .build()

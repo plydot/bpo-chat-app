@@ -6,26 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDirections
-import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import com.chat.bposeats.R
 import com.chat.bposeats.architecture.base.BaseFragment
-import com.chat.bposeats.chat.messages.ChatMessagesFragment
-import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
-import com.chat.bposeats.utils.Constants
-import com.github.nkzawa.emitter.Emitter
 import com.squareup.picasso.Picasso
 import com.stfalcon.chatkit.commons.ImageLoader
 import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter
-import com.stfalcon.chatkit.dialogs.DialogsListAdapter.OnDialogLongClickListener
 import kotlinx.android.synthetic.main.fragment_chat.*
-import java.io.Serializable
-import java.lang.IllegalArgumentException
 
 
 class ChatFragment : BaseFragment(), ChatContract.MView {
@@ -47,21 +37,15 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         //initialize presenter
         mPresenter = ViewModelProvider(this).get(ChatPresenter::class.java)
         //attach view to presenter
         mPresenter.attachView(this)
         //initialize chat ui
         mPresenter.onViewInitialized()
+
     }
 
-    private val onNewMessage = Emitter.Listener { args ->
-        activity!!.runOnUiThread {
-            val data = args[0].toString()
-            Toast.makeText(activity!!, data, Toast.LENGTH_LONG).show()
-        }
-    }
 
     override fun loadUsers(data: List<User>?) {
         Toast.makeText(activity!!, data.toString(), Toast.LENGTH_LONG).show()
@@ -76,12 +60,16 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
     }
 
     override fun displayChatUi() {
+        //connect to socket server
+        mPresenter.connectSocket(this::connectStatus)
+
         val emptyDialog = mutableListOf<IDialog<IMessage>>()
         dialogsListAdapter =
             DialogsListAdapter<IDialog<IMessage>>(ImageLoader { imageView, url, payload ->
                 try {
                     Picasso.get().load(url).into(imageView)
-                }catch (e: IllegalArgumentException){}
+                } catch (e: IllegalArgumentException) {
+                }
             })
         dialogsListAdapter.addItems(emptyDialog)
         //attach click listeners
@@ -110,6 +98,22 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
         val action = ChatFragmentDirections.actionChatFragmentToChatMessagesFragment()
         action.userIds = users.toTypedArray()
         findNavController().navigate(action)
+    }
+
+    override fun connectStatus(sio: String?) {
+        activity!!.runOnUiThread {
+            if (sio != null && sio != "None") {
+                Toast.makeText(activity!!, "connected", Toast.LENGTH_LONG).show()
+                start_dialog.visibility = View.VISIBLE
+                start_dialog.setOnClickListener {
+
+                }
+            } else {
+                Toast.makeText(activity!!, "Not authorised", Toast.LENGTH_LONG).show()
+                start_dialog.visibility = View.GONE
+                displayLoginUi()
+            }
+        }
     }
 
 

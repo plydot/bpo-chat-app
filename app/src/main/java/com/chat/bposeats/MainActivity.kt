@@ -37,16 +37,16 @@ class MainActivity : AppCompatActivity() {
 //                dao.userDao.insert(dbUser)
                 val lastMessage = ChatMessage(UUID.randomUUID().toString(), "", "Ok!", Date(), dbUser, dbUser.dbId)
                 dao.chatMessageDao.insert(lastMessage)
-//                dao.chatDialogDao.insert(
-//                    ChatDialog(
-//                        UUID.randomUUID().toString(),
-//                        "",
-//                        1,
-//                        lastMessage,
-//                        "",
-//                        mutableListOf(dbUser)
-//                    )
-//                )
+                dao.chatDialogDao.insert(
+                    ChatDialog(
+                        UUID.randomUUID().toString(),
+                        "",
+                        1,
+                        lastMessage,
+                        "",
+                        mutableListOf(dbUser)
+                    )
+                )
                 return true
             }
             else -> super.onOptionsItemSelected(item)
