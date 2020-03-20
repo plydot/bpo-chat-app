@@ -45,10 +45,10 @@ class ChatMessagesPresenter: BasePresenter(), ChatMessagesContract.MPresenter {
         )
     }
 
-    override fun sendNewMessage(message: String, user: User) {
+    override fun sendNewMessage(message: String, phone: String) {
         mSocket = getSocket()
         val obj = JSONObject()
-        obj.put("recipient", user.phone)
+        obj.put("recipient", phone)
         obj.put("message", message)
         mSocket.emit("send_message", obj)
         mSocket.on("message_reply", messageEmitter())

@@ -16,18 +16,22 @@ public interface BaseContract {
         fun getLifeCycleOwnerInstance(): LifecycleOwner
         fun application(): Application
         fun getCurrentContext(): FragmentActivity
+        fun showProgressDialog()
+        fun dismissProgressDialog()
     }
 
     interface MPresenter{
         fun attachView(view: MView)
         fun attachDataController(view: MView)
         fun getActiveUser() : User?
+        fun getUserById(id: String): User?
         fun getSocket() : Socket
     }
 
     interface DataController{
         fun getActiveUser() : User?
         fun getUserByPhone(phone: String) : User?
+        fun getUserById(id: String): User?
         fun saveDialog(dialog: ChatDialog)
         fun updateUser(users: User)
         fun updateMessage(message: ChatMessage)

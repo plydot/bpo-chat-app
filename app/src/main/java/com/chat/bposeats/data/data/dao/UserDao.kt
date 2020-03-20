@@ -24,6 +24,9 @@ interface UserDao {
     @Query("SELECT * FROM Users WHERE phone = :phone")
     fun getUser(phone: String) : User?
 
+    @Query("SELECT * FROM Users WHERE dbId = :id")
+    fun getUserById(id: String) : User?
+
     @Query("DELETE FROM Users WHERE dbId LIKE :string")
     fun deleteItem(string: String)
 

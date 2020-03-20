@@ -2,6 +2,7 @@ package com.chat.bposeats.chat.messages
 
 import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
+import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
 import com.github.nkzawa.emitter.Emitter
 import com.stfalcon.chatkit.commons.models.IDialog
@@ -25,7 +26,7 @@ public interface ChatMessagesContract {
         fun onViewInitialized()
         fun getNewMessages(users: List<String>?)
         fun addNewMessage(message: String, user: User)
-        fun sendNewMessage(message: String, user: User)
+        fun sendNewMessage(message: String, phone: String)
         fun messageEmitter() : Emitter.Listener
     }
 

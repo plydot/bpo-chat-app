@@ -28,6 +28,10 @@ open class BasePresenter : ViewModel(), BaseContract.MPresenter {
         return bDataController.getActiveUser()
     }
 
+    override fun getUserById(id: String): User? {
+        return bDataController.getUserById(id)
+    }
+
     override fun getSocket(): Socket {
         val app: BPChatApp = baseView.getCurrentContext().application as BPChatApp
         return app.mSocket()!!
