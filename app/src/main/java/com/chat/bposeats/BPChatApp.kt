@@ -25,6 +25,7 @@ class BPChatApp: MultiDexApplication() {
         super.attachBaseContext(base)
         MultiDex.install(base)
         mSocket = IO.socket(Constants.DEFAULT_SOCKET_URL)
+        mSocket.connect()
     }
 
     companion object{

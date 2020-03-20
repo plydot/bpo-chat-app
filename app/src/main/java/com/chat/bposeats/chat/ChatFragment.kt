@@ -55,6 +55,13 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
         mPresenter.logInUser(user)
     }
 
+    override fun onResume() {
+        super.onResume()
+        try {
+            mPresenter.connectSocket(this::connectStatus)
+        }catch (e: Exception){}
+    }
+
     override fun displayLoginUi() {
         findNavController().navigate(R.id.action_ChatFragment_to_AuthFragment)
     }
@@ -103,11 +110,12 @@ class ChatFragment : BaseFragment(), ChatContract.MView {
     override fun connectStatus(sio: String?) {
         activity!!.runOnUiThread {
             if (sio != null && sio != "None") {
-                Toast.makeText(activity!!, "connected", Toast.LENGTH_LONG).show()
-                start_dialog.visibility = View.VISIBLE
-                start_dialog.setOnClickListener {
-
-                }
+                try {
+                    start_dialog.visibility = View.VISIBLE
+                    start_dialog.setOnClickListener {
+                        findNavController().navigate(R.id.action_ChatFragment_to_AccountFragment)
+                    }
+                }catch (e: Exception){}
             } else {
                 Toast.makeText(activity!!, "Not authorised", Toast.LENGTH_LONG).show()
                 start_dialog.visibility = View.GONE

@@ -58,7 +58,7 @@ class ChatMessagesPresenter: BasePresenter(), ChatMessagesContract.MPresenter {
         return Emitter.Listener { args ->
             val data = args[0].toString().split("__SEP__")
             try {
-                addNewMessage(data[0], dataController.getUserByPhone(data[1])!!)
+                addNewMessage(args[0].toString(), dataController.getUserByPhone(data[1])!!)
             }catch (e: Exception){}
         }
     }

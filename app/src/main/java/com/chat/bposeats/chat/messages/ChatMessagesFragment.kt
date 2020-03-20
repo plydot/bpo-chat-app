@@ -46,7 +46,7 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
 
     override fun updateMessageList(messages: MutableList<IMessage>) {
         messageListAdapter.clear()
-        messageListAdapter.addToEnd(messages, true)
+        messageListAdapter.addToEnd(messages, false)
     }
 
     override fun getViewArguments() = arguments
@@ -61,7 +61,10 @@ class ChatMessagesFragment : BaseFragment(), ChatMessagesContract.MView {
     }
 
     override fun updateWithNewMessage(message: IMessage) {
-        messageListAdapter.addToStart(message, true)
+        val list = mutableListOf<IMessage>()
+        list.add(message)
+        messageListAdapter.addToEnd(list, false)
+        messageListAdapter.notifyDataSetChanged()
     }
 
 }

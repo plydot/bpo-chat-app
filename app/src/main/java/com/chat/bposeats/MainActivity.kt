@@ -1,16 +1,18 @@
 package com.chat.bposeats
 
+import android.Manifest
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.chat.bposeats.data.data.entity.ChatDialog
 import com.chat.bposeats.data.data.entity.ChatMessage
-import com.chat.bposeats.data.data.entity.User
-import com.chat.bposeats.utils.Constants
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+
 
 /**
  * Displays the main screen
@@ -21,6 +23,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        //request for contacts permissions
+        val dialogPermissionListener: PermissionListener = DialogOnDeniedPermissionListener.Builder
+            .withContext(this)
+            .withTitle("Contacts permission")
+            .withMessage("Contacts permission is needed to sync your chats")
+            .withButtonText(android.R.string.ok)
+            .build()
+
+        Dexter.withActivity(this)
+            .withPermission(Manifest.permission.READ_CONTACTS)
+            .withListener(dialogPermissionListener)
+            .check()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

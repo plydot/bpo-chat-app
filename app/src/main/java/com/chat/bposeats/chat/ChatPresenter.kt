@@ -1,6 +1,7 @@
 package com.chat.bposeats.chat
 
 import android.os.AsyncTask
+import android.widget.Toast
 import com.chat.bposeats.architecture.base.BaseContract
 import com.chat.bposeats.architecture.base.BasePresenter
 import com.chat.bposeats.data.data.entity.ChatDialog
@@ -36,6 +37,8 @@ class ChatPresenter : BasePresenter(), ChatContract.MPresenter {
         }
     }
 
+
+
     override fun getDialogs() {
         dataController.bindChatDialogs(
             baseView.getLifeCycleOwnerInstance(),
@@ -52,13 +55,19 @@ class ChatPresenter : BasePresenter(), ChatContract.MPresenter {
         out.invoke(userIds)
     }
 
+
+
     override fun connectSocket(connect: (String) -> Unit) {
         val onConnect = Emitter.Listener { args ->
-            val data = args[0].toString()
-            connect.invoke(data)
+            try {
+                val data = args[0].toString()
+                connect.invoke(data)
+            }catch (e: NullPointerException){
+
+            }
         }
         mSocket = getSocket()
-        mSocket.connect()
+//        mSocket.connect()
         val obj = JSONObject()
         obj.put("phone", getActiveUser()!!.phone)
         mSocket.emit("update_sio", obj)
@@ -80,7 +89,7 @@ class ChatPresenter : BasePresenter(), ChatContract.MPresenter {
                     }
                     dataController.updateUser(user)
                     val lastMessage = ChatMessage(
-                        UUID.randomUUID().toString(), user.name,
+                        data[2], user.name,
                         data[0], Date(), user, user.dbId
                     )
                     dataController.updateMessage(lastMessage)

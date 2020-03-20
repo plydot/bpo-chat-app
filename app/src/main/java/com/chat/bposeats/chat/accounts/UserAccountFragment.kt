@@ -33,6 +33,7 @@ class UserAccountFragment : BaseFragment(), AccountsContract.MView {
         mPresenter = ViewModelProvider(this).get(AccountPresenter::class.java)
         //attach view to presenter
         mPresenter.attachView(this)
+        mPresenter.attachDataController(this)
 
         //initialize adapter
         adapter = UserAccountRecyclerViewAdapter(mPresenter)
@@ -49,7 +50,8 @@ class UserAccountFragment : BaseFragment(), AccountsContract.MView {
     }
 
     override fun loadDialogUsers(users: List<String>) {
-        val action = ChatFragmentDirections.actionChatFragmentToChatMessagesFragment()
+        val action
+                = UserAccountFragmentDirections.actionAccountFragmentToChatMessagesFragment()
         action.userIds = users.toTypedArray()
         findNavController().navigate(action)
     }
