@@ -42,6 +42,8 @@ public interface ChatContract {
         fun loadDialogUsers(dialog: IDialog<IMessage>, out: (List<String>) -> (Unit))
 
         fun connectSocket(connect: (String) -> (Unit))
+
+        fun handleNewMessage()
     }
 
     interface DataController {

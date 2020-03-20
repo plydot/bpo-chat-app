@@ -26,7 +26,7 @@ public interface ChatMessagesContract {
         fun getNewMessages(users: List<String>?)
         fun addNewMessage(message: String, user: User)
         fun sendNewMessage(message: String, user: User)
-        fun messageEmitter(user: User) : Emitter.Listener
+        fun messageEmitter() : Emitter.Listener
     }
 
     interface DataController {
@@ -37,5 +37,6 @@ public interface ChatMessagesContract {
         )
 
         fun saveNewChatMessage(message: String, user: User, out: (IMessage) -> (Unit))
+
     }
 }

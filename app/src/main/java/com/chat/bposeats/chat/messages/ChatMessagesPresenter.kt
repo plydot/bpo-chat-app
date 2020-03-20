@@ -47,18 +47,19 @@ class ChatMessagesPresenter: BasePresenter(), ChatMessagesContract.MPresenter {
 
     override fun sendNewMessage(message: String, user: User) {
         mSocket = getSocket()
-        mSocket.connect()
         val obj = JSONObject()
-        obj.put("sender", user.phone)
+        obj.put("recipient", user.phone)
         obj.put("message", message)
         mSocket.emit("send_message", obj)
-        mSocket.on("message_response", messageEmitter(user))
+        mSocket.on("message_reply", messageEmitter())
     }
 
-    override fun messageEmitter(user: User): Emitter.Listener {
+    override fun messageEmitter(): Emitter.Listener {
         return Emitter.Listener { args ->
-            val data = args[0].toString()
-            addNewMessage(data, user)
+            val data = args[0].toString().split("__SEP__")
+            try {
+                addNewMessage(data[0], dataController.getUserByPhone(data[1])!!)
+            }catch (e: Exception){}
         }
     }
 }

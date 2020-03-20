@@ -26,7 +26,5 @@ public interface AccountsContract {
     interface DataController {
         // gets active user from db and trigger ui updates
         fun bindUsers(lifeCycleOwner: LifecycleOwner, userData: (List<User>) -> (Unit))
-        fun updateUser(users: User)
-        fun saveDialog(dialog: ChatDialog)
     }
 }

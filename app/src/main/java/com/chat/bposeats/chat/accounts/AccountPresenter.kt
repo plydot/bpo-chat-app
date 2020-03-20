@@ -17,7 +17,7 @@ import com.stfalcon.chatkit.commons.models.IMessage
 class AccountPresenter : BasePresenter(), AccountsContract.MPresenter {
 
     public lateinit var mView: AccountsContract.MView
-    private lateinit var dataController: AccountsContract.DataController
+    private lateinit var dataController: AccountDataController
     private lateinit var networkService: Routines
 
     override fun onViewInitialized() {

@@ -18,12 +18,4 @@ class AccountDataController(daoFactory: DaoFactory) : BaseDataController(daoFact
             Observer { o -> userData.invoke(o.toMutableList()) }
         )
     }
-
-    override fun updateUser(users: User) {
-        dao.userDao.insert(users)
-    }
-
-    override fun saveDialog(dialog: ChatDialog) {
-        dao.chatDialogDao.insert(dialog)
-    }
 }

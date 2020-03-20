@@ -3,6 +3,8 @@ package com.chat.bposeats.architecture.base
 import android.app.Application
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
+import com.chat.bposeats.data.data.entity.ChatDialog
+import com.chat.bposeats.data.data.entity.ChatMessage
 import com.chat.bposeats.data.data.entity.User
 import com.github.nkzawa.socketio.client.Socket
 
@@ -25,5 +27,9 @@ public interface BaseContract {
 
     interface DataController{
         fun getActiveUser() : User?
+        fun getUserByPhone(phone: String) : User?
+        fun saveDialog(dialog: ChatDialog)
+        fun updateUser(users: User)
+        fun updateMessage(message: ChatMessage)
     }
 }
